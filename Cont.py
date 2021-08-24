@@ -6,11 +6,11 @@ Date: 2021-08-23
 Version: 0.0.0
 '''
 
-#__LYBRARIES__#
+# __LYBRARIES__ #
 from tkinter import *
 
 
-#__MAIN CODE__#
+# __MAIN CODE__ #
 class Main_Window(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -39,12 +39,12 @@ def run():
 if __name__ == '__main__':
     run()
 
-#__NOTES__#
+# __NOTES__ #
 '''
 
 '''
 
-#__BIBLIOGRAPHY__#
+# __BIBLIOGRAPHY__ #
 '''
 
 '''
