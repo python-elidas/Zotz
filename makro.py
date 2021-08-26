@@ -143,3 +143,7 @@ if __name__ == '__main__':
 # __NOTES__ #
 
 # __BIBLIOGRAPHY__ #
+'''
+    W3Schools:      https://www.w3schools.com/python/python_reference.asp
+    stackoverflow:  https://stackoverflow.com/
+'''
