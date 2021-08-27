@@ -12,6 +12,7 @@ from tika import parser
 
 # __MAIN CODE__ #
 def makro(file_path):
+    file = file_path.split('/')[-1].split('.')[0].replace('-MAKRO', '')
     # __lectura del archivo__ #
     raw = parser.from_file(file_path)  # Ruta completa
     raw = str(raw['content'])  # Seleccionamos el contenido relevante
@@ -90,9 +91,11 @@ def makro(file_path):
                     cnt += 1
                 D = {
                     'codigo': info[0], 'desc': info[1],
-                    'prec ud': info[3], 'ud pac': info[4],
-                    'precio': info[5], 'uds': info[6],
-                    'iva': info[8],
+                    'prec ud': float(info[3].replace(',', '.')),
+                    'ud pac': int(info[4]),
+                    'precio': float(info[5].replace(',', '.')),
+                    'uds': int(info[6]),
+                    'iva': int(info[8]),
                 }
                 factura['articulos'].append(D)
 
@@ -109,8 +112,8 @@ def makro(file_path):
                 if not elem == '':
                     info.append(elem)
             D = dict()
-            D['val'] = info[-3]
-            D['iva'] = info[-2]
+            D['val'] = float(info[-3][:-1].replace(',', '.')) * -1
+            D['iva'] = int(info[-2])
             D['code'] = info[-1]
             factura['descuentos'].append(D)
 
@@ -119,15 +122,15 @@ def makro(file_path):
             factura['total'] = row.split('     ')[-1]
             break
 
-    return factura
+    return file, factura
 
 
 def run():
-    factura = makro(
+    file, factura = makro(
         '///Users/osgum/Desktop/Zotz/Facturas_MAKRO/21-05-08-MAKRO-01.pdf'
     )
 
-    print('--- safe text ---')
+    print('--- safe text ---', file)
     for item in factura:
         if type(factura[item]) != list:
             print(f'{item} : {factura[item]}')

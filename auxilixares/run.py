@@ -9,13 +9,22 @@ db = SQL.SQL('files/zotz_db')
 
 wb = xls.load_workbook(filename=file, read_only=False)
 sheets = wb.sheetnames[1:10]
+codes = list()
 
 for sheet in sheets:
     for row in wb[sheet].iter_rows(min_row=61):
         info = db.show_all_rows('Articulos')
-        if not row[1].value is None:
+        if not row[1].value is None and\
+                not row[1].value in codes:
             db.insert_info('Articulos', 'Codigo', row[1].value)
-            db.update('Articulos', 'Descripcion', row[1].value, row[2].value)
-            db.update('Articulos', 'Tipo', row[1].value, row[3].value)
-            db.update('Articulos', 'TimeStamp', row[1].value, today)
+            db.update(
+                'Articulos', 'Descripcion', 'Codigo',
+                (row[2].value, row[1].value))
+            db.update(
+                'Articulos', 'Tipo', 'Codigo',
+                (row[3].value, row[1].value))
+            db.update(
+                'Articulos', 'TimeStamp', 'Codigo',
+                (today, row[1].value))
+            codes.append(row[1].value)
     print(info)
