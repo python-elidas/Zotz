@@ -89,10 +89,16 @@ def makro(file_path):
                     elif cnt == len(all)-1 and not i == '':
                         info.append(i)
                     cnt += 1
+                if len(info) > 8 and len(info[2]) > 2:
+                    desc = str()
+                    for elem in info[1:-7]:
+                        desc += elem + ' '
+                        info.remove(elem)
+                    info.insert(1, desc[:-1])
                 D = {
                     'codigo': info[0], 'desc': info[1],
                     'prec ud': float(info[3].replace(',', '.')),
-                    'ud pac': int(info[4]),
+                    'ud pac': float(info[4].replace(',', '.')),
                     'precio': float(info[5].replace(',', '.')),
                     'uds': int(info[6]),
                     'iva': int(info[8]),
@@ -127,7 +133,7 @@ def makro(file_path):
 
 def run():
     file, factura = makro(
-        '///Users/osgum/Desktop/Zotz/Facturas_MAKRO/21-05-08-MAKRO-01.pdf'
+        '///Users/osgum/Desktop/Zotz/Facturas_MAKRO/21-01-28-MAKRO-02.pdf'
     )
 
     print('--- safe text ---', file)
