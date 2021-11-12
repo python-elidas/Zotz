@@ -9,7 +9,7 @@ Version: 0.0.1
 # __LYBRARIES__ #
 import openpyxl as xls
 import simply_sqlite as SQL
-from makro import makro
+from makro import Makro
 from datetime import datetime
 
 # __MAIN CODE__ #
@@ -24,7 +24,8 @@ class Excel:
         # accedemos al excel
         self.wb = xls.load_workbook(filename=xcel, read_only=False)
         # obtenemos el nombre de la factura y su información
-        self.new, self.bill = makro(pdf)  # generalizar
+        M = Makro(pdf)
+        self.new, self.bill = M.result()  # generalizar
         # ejecutamos el codigo de la Factura
         self.write_bill()
         # ejecutamos el siguiente paso:
@@ -39,8 +40,8 @@ class Excel:
         ws.title = self.new
         # COMENZAMOS A INTRODUCIR INFORMACIÓN
         # número de factura y fecha
-        ws['G2'] = self.bill['num'][0]
-        ws['G3'] = self.bill['num'][1]
+        ws['G2'] = self.bill['Factura'][0]
+        ws['G3'] = self.bill['Factura'][1]
         ws['G4'] = self.bill['fecha']
 
         # empezamos con los articulos:

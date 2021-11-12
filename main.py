@@ -80,6 +80,7 @@ class Main_Frame(Frame):
                 message="Cierra el fichero Excel y vuelve a intentarlo",
                 title="Permision Error"
             )
+            self.run()
 
 
 def run():

@@ -8,7 +8,7 @@ Version: 1.0.0
 
 # __LYBRARIES__ #
 import os as file
-from PDF_read import makro
+from makro import Makro
 
 # __MAIN CODE__ #
 dir = 'C:/Users/osgum/Desktop/Zotz/Facturas_MAKRO'
@@ -18,7 +18,8 @@ for item in files:
         print(f'Item: {item}')
         txt = dir + '/txt/' + item.replace('.pdf', '.txt')
         pdf = dir.replace('C:', '//') + '/' + item
-        factura = makro(pdf)
+        M = Makro(pdf)
+        date, factura = M.result()
         info = open(txt, 'w')
         for item in factura:
             if type(factura[item]) != list:
