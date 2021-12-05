@@ -43,6 +43,7 @@ class Excel:
         self.overview()
         # Guardamos los cambios
         self.wb.save(xcel)
+        print(f'Bill {self.new} Saved correctly!')
 
     def write_head(self): # Escribimos los datos relevantes de la factura
         # número de factura y fecha

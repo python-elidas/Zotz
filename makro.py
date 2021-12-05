@@ -15,6 +15,7 @@ class Makro:
     def __init__(self, file_path):
         self.file = file_path.split('/')[-1]\
             .split('.')[0].replace('-MAKRO', '')
+        print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
         raw = str(raw['content'])  # Seleccionamos el contenido relevante
@@ -37,10 +38,13 @@ class Makro:
             self.get_items()
         except ValueError:
             self.get_items_v2()
-            # verificamos la existencia de descuentos
+        # si no es devolucion
+        if not 'Factura devolucion' in list(self.factura.keys()):
+            # verificamos la existencia de descuentos 
             self.get_disc()
         # Obtenemos el total de la factura:
         self.get_ammont()
+        print(f'File {self.file} readed.')
 
     def clean(self):
         # buscamos donde empiea lo interesante
@@ -128,7 +132,7 @@ class Makro:
                     .replace('\\xc3\\x9a', 'U')\
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
-                print(f'{row}\nlen: {len(row)}')
+                # print(f'{row}\nlen: {len(row)}')
                 if len(row) > 100 and not '-' in row[80:90]:
                     D['codigo'] = ' '.join(row[3:18].split())  #! Nota 1
                     D['desc'] = ' '.join(row[18:52].split())
@@ -190,7 +194,7 @@ class Makro:
                     for item in row_:
                         if not item == '' and not item == 'M':
                             row.append(item)
-                    print(f'{row}')
+                    # print(f'{row}')
                     if len(row) >= 9 and not '-' in str(row[5]):
                         D['codigo'] = row[0]
                         D['desc'] = row[1]
@@ -286,7 +290,7 @@ def run(files):
 
 
 if __name__ == '__main__':
-    files = ['21-07-07-MAKRO.pdf']
+    files = ['21-07-12-MAKRO-03.pdf']
     # files = file.listdir(dir)
     run(files)
 
