@@ -78,7 +78,7 @@ class Main_Frame(Frame):
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",
-                title="Permision Error"
+                title="Permission Error"
             )
             self.run()
 
