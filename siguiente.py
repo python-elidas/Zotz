@@ -7,10 +7,12 @@ Version: 0.0.1
 '''
 
 # __LYBRARIES__ #
+from tkinter import *
 import openpyxl as xls
 import simply_sqlite as SQL
 from makro import Makro
 from datetime import datetime
+from sel_type import Sel_Type
 
 # __MAIN CODE__ #
 class Excel:
@@ -57,22 +59,29 @@ class Excel:
             self.ws['G3'] = self.bill['Factura devolucion'][1]
             self.ws['G4'] = self.bill['fecha']
 
+    def set_id(self):
+        no_ID = list()
+        for item in self.bill['articulos']:
+            if len(self.db.show_one_row(
+                'Articulos', 'Codigo', item['codigo'])) == 0:
+                no_ID.append(item)
+        if not len(no_ID) == 0:
+            pass
+            
     def write_items(self): # empezamos con los articulos:
         items = self.bill['articulos']
         self.row = 62
         for item in items:
+            # obtenemos la referencia del tipo de producto
+            while len(self.db.show_one_row(
+                'Articulos', 'Codigo', item['codigo'])) == 0:
+                id = Sel_Type(item, self.wb)
+                id.mainloop()
             self.ws[f'A{self.row}'] = self.row - 61  # escribimos el numero de la fila
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
-            # obtenemos la referencia del tipo de producto
-            if len(self.db.show_one_row(
-                'Articulos', 'Codigo', item['codigo']
-            )) == 0:
-                # Main_Frame.new_item(item)
-                self.ws[f'D{self.row}'] = 'PNDT'
-            else:
-                self.ws[f'D{self.row}'] = self.db.show_one_row(
-                    'Articulos', 'Codigo', item['codigo'])[0][2]
+            self.ws[f'D{self.row}'] = self.db.show_one_row(
+                'Articulos', 'Codigo', item['codigo'])[0][2]
             self.ws[f'E{self.row}'] = item['prec ud']
             self.ws[f'F{self.row}'] = item['ud pac']
             self.ws[f'G{self.row}'] = item['precio']
