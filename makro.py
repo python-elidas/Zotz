@@ -10,6 +10,7 @@ Version: 1.0.0
 from tika import parser
 
 
+
 # __MAIN CODE__ #
 class Makro:
     def __init__(self, file_path):
