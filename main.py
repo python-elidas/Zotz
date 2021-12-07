@@ -38,7 +38,6 @@ class Main_Window(Tk):
             nme = bil.split('.')[0].replace('-MAKRO', '')
             if '.pdf' in bil and not nme in self._frame.ws_nms:
                 process.append(bil)
-        self.switch_frames(Info)
         Label(self._frame, text='Procesando Archivos...')\
             .grid(row=3)
         try:
