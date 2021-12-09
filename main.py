@@ -13,12 +13,17 @@ from tkinter.ttk import Progressbar
 import os as file
 import openpyxl as xls
 from siguiente import Excel
+import threading as th
 
 
 # __MAIN CODE__ #
 class Main_Window(Tk):
     def __init__(self):
         Tk.__init__(self)
+        
+        self.ind = 0
+        
+        self.exe = th.Thread(target=self.run)
 
         self._frame = Main_Frame(self)
         self._frame.pack(fill=NONE, expand=1)
@@ -32,20 +37,24 @@ class Main_Window(Tk):
         dir = self._frame.folder.get()
         bills = file.listdir(dir)
         excel = self._frame.excel.get()
-        # Comprobamos que facturas han sido pasadas para no repetir
-        process = list()
-        for bil in bills:
-            nme = bil.split('.')[0].replace('-MAKRO', '')
-            if '.pdf' in bil and not nme in self._frame.ws_nms:
-                process.append(bil)
         Label(self._frame, text='Procesando Archivos...')\
-            .grid(row=3)
+            .grid(row=3, column=0)
+        if self.ind == 0:
+            # Comprobamos que facturas han sido pasadas para no repetir
+            self.process = list()
+            for bil in bills:
+                nme = bil.split('.')[0].replace('-MAKRO', '')
+                if '.pdf' in bil and not nme in self._frame.ws_nms:
+                    self.process.append(bil)
         try:
-            for bil in process:
+            m = len(self.process)
+            while self.ind < m:
+                bil = self.process[self.ind]
                 pdf = dir.replace('C:', '//') + '/' + bil
-                Label(self._frame, text=f'{pdf}')
-                Excel(excel, pdf)
-                process.pop(process.index(bil))
+                Label(self._frame, text=f'Archivo {n} de {m}')\
+                    .grid(row=3, column=2)
+                Excel(excel, pdf, self)
+
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",
@@ -80,7 +89,7 @@ class Main_Frame(Frame):
         self.f_e = Button(self, text='···', width=3, command=self.select_excel)
         self.f_e.grid(row=1, column=3, sticky=E)
 
-        self.exe = Button(self, text='Run', command=self._master.run)
+        self.exe = Button(self, text='Run', command=self._master.exe.start)
         self.exe.grid(row=2, column=3, sticky=E, pady=10)
 
     def select_excel(self):
@@ -108,10 +117,12 @@ class Main_Frame(Frame):
 def run():
     main = Main_Window()
     main.mainloop()
+    
+window = th.Thread(target=run)
 
 
 if __name__ == '__main__':
-    run()
+    window.start()
 
 # __NOTES__ #
 '''
