@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-26T11:18:58.589Z
-Version: 0.0.1
+Version: 1.5.0
 '''
 
 # __LYBRARIES__ #
@@ -16,7 +16,7 @@ from sel_type import Sel_Type
 
 # __MAIN CODE__ #
 class Excel:
-    def __init__(self, xcel, pdf):
+    def __init__(self, xcel, pdf, _master):
         # obtiene la fecha de hoy
         self.today = datetime.now().strftime('%x')
         # accedemos a la base de datos
@@ -30,6 +30,10 @@ class Excel:
         self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
         # Establecemos el tituo de la nueva hoja
         self.ws.title = self.new
+        # Comprobemos si existen elementos sin ID
+        self.get_id()
+        if not len(no_ID) == 0:
+            _master.switch_frames()
         # Escribimos la cabecera
         self.write_head()
         # Escribimos los articulos:
@@ -59,7 +63,7 @@ class Excel:
             self.ws['G3'] = self.bill['Factura devolucion'][1]
             self.ws['G4'] = self.bill['fecha']
 
-    def set_id(self):
+    def get_id(self):
         no_ID = list()
         for item in self.bill['articulos']:
             if len(self.db.show_one_row(

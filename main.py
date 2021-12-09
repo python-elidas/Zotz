@@ -44,7 +44,7 @@ class Main_Window(Tk):
             for bil in process:
                 pdf = dir.replace('C:', '//') + '/' + bil
                 Label(self._frame, text=f'{pdf}')
-                Excel(excel, pdf)
+                Excel(excel, pdf, self)
                 process.pop(process.index(bil))
         except PermissionError:
             messagebox.showerror(
