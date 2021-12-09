@@ -41,8 +41,8 @@ class Excel:
         # Comprobamos si existen elementos sin ID
         self.get_id()
         # si existen, pedimos intervencion del usuario
-        if not len(no_ID) == 0:
-            id = Sel_Type(no_ID, self.wb, self.new, self.bill)
+        if not len(self.no_ID) == 0:
+            id = Sel_Type(self.no_ID, self.wb, self.new, self.bill)
             id.mainloop()
         # si no, continuamos
         else:
