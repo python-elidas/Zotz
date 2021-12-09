@@ -16,36 +16,55 @@ from sel_type import Sel_Type
 
 # __MAIN CODE__ #
 class Excel:
-    def __init__(self, xcel, pdf):
+    def __init__(self, xcel, pdf, _master, wb='', new='', bill=''):
+        self.wb = wb
         # obtiene la fecha de hoy
         self.today = datetime.now().strftime('%x')
         # accedemos a la base de datos
         self.db = SQL.SQL('files/zotz_db')
-        # accedemos al excel
-        self.wb = xls.load_workbook(filename=xcel, read_only=False)
-        # obtenemos el nombre de la factura y su información
-        M = Makro(pdf)
-        self.new, self.bill = M.result()  #! generalizar
-        # creamos la hoja con la que trabajaremos
-        self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
-        # Establecemos el tituo de la nueva hoja
-        self.ws.title = self.new
-        # Escribimos la cabecera
-        self.write_head()
-        # Escribimos los articulos:
-        self.write_items()
-        # Escribimos los descuentos si existen:
-        try:
-            self.write_discounts()
-        except KeyError:
-            pass
-        # reordenamos el desorden:
-        self.reorder() 
-        # ejecutamos el siguiente paso:
-        self.overview()
-        # Guardamos los cambios
-        self.wb.save(xcel)
+        # comprobamos que no se le ha pasado nada...
+        if new == '' and bill == '' and wb == '':
+            # obtenemos el nombre de la factura y su información
+            M = Makro(pdf)
+            self.new, self.bill = M.result()  #! generalizar
+            # accedemos al excel
+            self.wb = xls.load_workbook(filename=xcel, read_only=False)
+            # creamos la hoja con la que trabajaremos
+            self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
+            # Establecemos el tituo de la nueva hoja
+            self.ws.title = self.new
+        else:
+            self.new, self.bill = new, bill
+            self.wb = wb
+            self.ws = self.wb[self.new]
+            bool = True
+        # Comprobamos si existen elementos sin ID
+        self.get_id()
+        # si existen, pedimos intervencion del usuario
+        if not len(no_ID) == 0:
+            id = Sel_Type(no_ID, self.wb, self.new, self.bill)
+            id.mainloop()
+        # si no, continuamos
+        else:
+            # Escribimos la cabecera
+            self.write_head()
+            # Escribimos los articulos:
+            self.write_items()
+            # Escribimos los descuentos si existen:
+            try:
+                self.write_discounts()
+            except KeyError:
+                pass
+            # reordenamos el desorden:
+            self.reorder() 
+            # ejecutamos el siguiente paso:
+            self.overview()
+            # Guardamos los cambios
+            self.wb.save(xcel)
         print(f'Bill {self.new} Saved correctly!')
+        _master.ind += 1
+        if bool:
+            _master.exe.start()
 
     def write_head(self): # Escribimos los datos relevantes de la factura
         # número de factura y fecha
@@ -59,7 +78,7 @@ class Excel:
             self.ws['G3'] = self.bill['Factura devolucion'][1]
             self.ws['G4'] = self.bill['fecha']
 
-    def set_id(self):
+    def get_id(self):
         no_ID = list()
         for item in self.bill['articulos']:
             if len(self.db.show_one_row(
@@ -73,10 +92,6 @@ class Excel:
         self.row = 62
         for item in items:
             # obtenemos la referencia del tipo de producto
-            while len(self.db.show_one_row(
-                'Articulos', 'Codigo', item['codigo'])) == 0:
-                id = Sel_Type(item, self.wb)
-                id.mainloop()
             self.ws[f'A{self.row}'] = self.row - 61  # escribimos el numero de la fila
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
