@@ -22,6 +22,7 @@ class Main_Window(Tk):
         Tk.__init__(self)
         
         self.ind = 0
+        self.n, self.m = 1, 2
         
         self.exe = th.Thread(target=self.run)
 
@@ -32,6 +33,8 @@ class Main_Window(Tk):
         self.iconbitmap('files/logo.ico')
         self.geometry('600x250')
         self.resizable(FALSE, FALSE)
+    
+            
         
     def run(self):
         dir = self._frame.folder.get()
@@ -39,34 +42,36 @@ class Main_Window(Tk):
         excel = self._frame.excel.get()
         Label(self._frame, text='Procesando Archivos...')\
             .grid(row=3, column=0)
-        if self.ind == 0:
-            # Comprobamos que facturas han sido pasadas para no repetir
-            self.process = list()
-            for bil in bills:
-                nme = bil.split('.')[0].replace('-MAKRO', '')
-                if '.pdf' in bil and not nme in self._frame.ws_nms:
-                    self.process.append(bil)
+        # Comprobamos que facturas han sido pasadas para no repetir
+        process = list()
+        for bil in bills:
+            nme = bil.split('.')[0].replace('-MAKRO', '')
+            if '.pdf' in bil and not nme in self._frame.ws_nms:
+                process.append(bil)
         try:
-            m = len(self.process)
-            while self.ind < m:
-                bil = self.process[self.ind]
+            self.n, self.m =1, len(process)
+            for bil in process:
                 pdf = dir.replace('C:', '//') + '/' + bil
-                Label(self._frame, text=f'Archivo {n} de {m}')\
+                Label(self._frame, text=f'Archivo {self.n} de {self.m}')\
                     .grid(row=3, column=2)
-                Excel(excel, pdf, self)
-
+                Excel(excel, pdf)
+                self.n += 1
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",
                 title="Permission Error"
             )
             self.run()
+        messagebox.showinfo(
+            message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
+            title="Porceso completado.")
+        self._frame.exe.config(text='Apagar', command=self._frame.kill)
         
     def switch_frames(self, frame):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = frame(self)
-        self._frame.pack(fill=NONE, expand=1)
+        self._frame.pack(fill=NONE, expand=1)     
 
 
 class Main_Frame(Frame):
@@ -113,16 +118,18 @@ class Main_Frame(Frame):
         self.folder.delete(0, END)
         self.folder.insert(0, dir)
 
+    def kill(self):
+        self._master.exe.join()
+        self._master.destroy()
 
 def run():
     main = Main_Window()
     main.mainloop()
-    
-window = th.Thread(target=run)
 
 
 if __name__ == '__main__':
-    window.start()
+    run()
+    exit()
 
 # __NOTES__ #
 '''
