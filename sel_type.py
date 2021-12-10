@@ -17,13 +17,14 @@ from datetime import datetime
 
 # __MAIN CODE__ #
 class Sel_Type(Tk):
-    def __init__(self, no_ID, wb='', new='', bill=''):
+    def __init__(self, no_ID, wb):
         Tk.__init__(self)
         
         # variables
-        self.items = no_ID
+        self.no_ID = no_ID
         self.ws = wb['Datos']
         self.ind = 0
+        self.item = self.no_ID[0]
         
         # Elementos generales de la ventana
         self.title('Elemento NO hallado')
@@ -33,26 +34,26 @@ class Sel_Type(Tk):
         
         # Entradas y editables
         Label(self, text='Por Favor, selecciona el tipo de gasto:')\
-            .grid(row=0)
-        self.name = Label(self, text=self.items[0]['desc'])
-        self.name.grid(row=1)
+            .pack()
+        self.name = Label(self, text=self.no_ID[0]['desc'])
+        self.name.pack()
         self.id = Combobox(
             self,
             values=self.get_id())
-        self.id.grid(row=2)
-        if not len(self.items) == 0:
+        self.id.pack()
+        if not self.ind == len(self.no_ID)-1:
             self.save = Button(self, text='Siguiente', command=self.next)
         else:
             self.save = Button(self, text='Guardar', command=self.save_ID)
-        self.save.grid(row=3, sticky=W)  
+        self.save.pack()  
         
     def next(self):
-        self.ind += 1
-        self.name.config(text=self.items[self.ind]['desc'])
         # es mas sencillo esto que cambiar toda la funcion
-        self.item = self.items[self.ind] 
         self.save_ID()
-        if self.ind == len(self.items)-1:
+        self.ind += 1
+        self.item = self.no_ID[self.ind]
+        self.name.config(text=self.item['desc'])
+        if self.ind == len(self.no_ID)-1:
             self.save.config(text='Guardar', command=self.save_ID)
         
     def get_id(self):
@@ -84,8 +85,8 @@ class Sel_Type(Tk):
         db.update(
             'Articulos', 'TimeStamp', 'Codigo',
             (today, self.item['codigo']))
-        
-        self.destroy()
+        if self.ind == len(self.no_ID)-1:
+            self.destroy()
 
 # __RUN CODE__ #
 if __name__ == '__main__':
