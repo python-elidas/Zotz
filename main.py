@@ -38,7 +38,8 @@ class Main_Window(Tk):
         self.exit.pack(anchor = SE, side = BOTTOM, padx = 10, pady = 5)
     
     def out(self):
-        self.exe.join()
+        if self.exe.is_alive():
+            self.exe.join()
         self.destroy()
         
     def run(self):
