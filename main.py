@@ -33,8 +33,13 @@ class Main_Window(Tk):
         self.iconbitmap('files/logo.ico')
         self.geometry('600x250')
         self.resizable(FALSE, FALSE)
+        
+        self.exit = Button(self, text = 'Salir', command = self.out)
+        self.exit.pack(anchor = SE, side = BOTTOM, padx = 10, pady = 5)
     
-            
+    def out(self):
+        self.exe.join()
+        self.destroy()
         
     def run(self):
         dir = self._frame.folder.get()
