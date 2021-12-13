@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-26T11:18:58.589Z
-Version: 1.5.0
+Version: 1.2.0
 '''
 
 # __LYBRARIES__ #
@@ -13,29 +13,32 @@ import simply_sqlite as SQL
 from makro import Makro
 from datetime import datetime
 from sel_type import Sel_Type
+import time
 
 # __MAIN CODE__ #
 class Excel:
-    def __init__(self, xcel, pdf, _master):
+    def __init__(self, xcel, pdf, master):
         # obtiene la fecha de hoy
         self.today = datetime.now().strftime('%x')
-        # accedemos a la base de datos
-        self.db = SQL.SQL('files/zotz_db')
+        # obtenemos el nombre de la factura y su información
+        M = Makro(pdf, master)
+        self.new, self.bill = M.result()  #! generalizar
+        # damos informacion al usuario:
+        a = Label(master._frame, text='OK')
+        a.grid(row=5, column=1)
         # accedemos al excel
         self.wb = xls.load_workbook(filename=xcel, read_only=False)
-        # obtenemos el nombre de la factura y su información
-        M = Makro(pdf)
-        self.new, self.bill = M.result()  #! generalizar
         # creamos la hoja con la que trabajaremos
         self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
         # Establecemos el tituo de la nueva hoja
         self.ws.title = self.new
-        # Comprobemos si existen elementos sin ID
-        self.get_id()
-        if not len(no_ID) == 0:
-            _master.switch_frames()
+        # damos informacion al usuario:
+        b = Label(master._frame, text='OK')
+        b.grid(row=6, column=1)
         # Escribimos la cabecera
         self.write_head()
+        # Comprobamos si existen elementos sin ID
+        self.get_id()
         # Escribimos los articulos:
         self.write_items()
         # Escribimos los descuentos si existen:
@@ -49,7 +52,14 @@ class Excel:
         self.overview()
         # Guardamos los cambios
         self.wb.save(xcel)
+        # damos informacion al usuario:
+        c = Label(master._frame, text='OK')
+        c.grid(row=7, column=1)
         print(f'Bill {self.new} Saved correctly!')
+        time.sleep(1.5)
+        a.destroy()
+        b.destroy()
+        c.destroy()
 
     def write_head(self): # Escribimos los datos relevantes de la factura
         # número de factura y fecha
@@ -64,28 +74,27 @@ class Excel:
             self.ws['G4'] = self.bill['fecha']
 
     def get_id(self):
+        db = SQL.SQL('files/zotz_db')
         no_ID = list()
         for item in self.bill['articulos']:
-            if len(self.db.show_one_row(
+            if len(db.show_one_row(
                 'Articulos', 'Codigo', item['codigo'])) == 0:
                 no_ID.append(item)
         if not len(no_ID) == 0:
-            pass
+            id = Sel_Type(no_ID, self.wb)
+            id.mainloop()
             
     def write_items(self): # empezamos con los articulos:
+        db = SQL.SQL('files/zotz_db')
         items = self.bill['articulos']
         self.row = 62
         for item in items:
             # obtenemos la referencia del tipo de producto
-            while len(self.db.show_one_row(
-                'Articulos', 'Codigo', item['codigo'])) == 0:
-                id = Sel_Type(item, self.wb)
-                id.mainloop()
             self.ws[f'A{self.row}'] = self.row - 61  # escribimos el numero de la fila
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
-            self.ws[f'D{self.row}'] = self.db.show_one_row(
-                'Articulos', 'Codigo', item['codigo'])[0][2]
+            self.ws[f'D{self.row}'] = list(db.show_one_row(
+                'Articulos', 'Codigo', item['codigo']))[0][2]
             self.ws[f'E{self.row}'] = item['prec ud']
             self.ws[f'F{self.row}'] = item['ud pac']
             self.ws[f'G{self.row}'] = item['precio']
@@ -153,12 +162,12 @@ class Excel:
             .replace('M62', f'M{self.row-1}')
 
         # adecuamos las formaulas pertinentesa la infromacion que tenemos:
-        r = 19
-        I = [':$I$62', ':$K$62', ':$D$62']
+        R, r = 19, 8
+        J = [':$I$62', ':$K$62', ':$D$62']
         L = [':$L$62', ':$K$62', ':$D$62']
         M = [':$M$62', ':$K$62', ':$D$62']
-        while r <= 46:
-            for elem in I:
+        while r <= 11:
+            for elem in J:
                 self.ws[f'J{r}'].value = str(self.ws[f'J{r}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
             for elem in L:
@@ -168,6 +177,18 @@ class Excel:
                 self.ws[f'M{r}'].value = str(self.ws[f'M{r}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
             r += 1
+                    
+        while R <= 46:
+            for elem in J:
+                self.ws[f'J{R}'].value = str(self.ws[f'J{R}'].value)\
+                    .replace(elem, elem[:-2]+str(self.row))
+            for elem in L:
+                self.ws[f'L{R}'].value = str(self.ws[f'L{R}'].value)\
+                    .replace(elem, elem[:-2]+str(self.row))
+            for elem in M:
+                self.ws[f'M{R}'].value = str(self.ws[f'M{R}'].value)\
+                    .replace(elem, elem[:-2]+str(self.row))
+            R += 1
 
     def overview(self):
         self.ws = self.wb['Resumen']

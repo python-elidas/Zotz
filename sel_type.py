@@ -17,12 +17,14 @@ from datetime import datetime
 
 # __MAIN CODE__ #
 class Sel_Type(Tk):
-    def __init__(self, item, wb=''):
+    def __init__(self, no_ID, wb):
         Tk.__init__(self)
         
         # variables
-        self.item = item
+        self.no_ID = no_ID
         self.ws = wb['Datos']
+        self.ind = 0
+        self.item = self.no_ID[0]
         
         # Elementos generales de la ventana
         self.title('Elemento NO hallado')
@@ -33,14 +35,26 @@ class Sel_Type(Tk):
         # Entradas y editables
         Label(self, text='Por Favor, selecciona el tipo de gasto:')\
             .pack()
-        txt = item['desc']
-        Label(self, text=f"{txt}").pack()
+        self.name = Label(self, text=self.no_ID[0]['desc'])
+        self.name.pack()
         self.id = Combobox(
             self,
             values=self.get_id())
         self.id.pack()
-        save = Button(self, text='Guardar', command=self.save_ID)
-        save.pack()  
+        if not self.ind == len(self.no_ID)-1:
+            self.save = Button(self, text='Siguiente', command=self.next)
+        else:
+            self.save = Button(self, text='Guardar', command=self.save_ID)
+        self.save.pack()  
+        
+    def next(self):
+        # es mas sencillo esto que cambiar toda la funcion
+        self.save_ID()
+        self.ind += 1
+        self.item = self.no_ID[self.ind]
+        self.name.config(text=self.item['desc'])
+        if self.ind == len(self.no_ID)-1:
+            self.save.config(text='Guardar', command=self.save_ID)
         
     def get_id(self):
         self.IDs = dict()
@@ -71,7 +85,8 @@ class Sel_Type(Tk):
         db.update(
             'Articulos', 'TimeStamp', 'Codigo',
             (today, self.item['codigo']))
-        self.destroy()
+        if self.ind == len(self.no_ID)-1:
+            self.destroy()
 
 # __RUN CODE__ #
 if __name__ == '__main__':
