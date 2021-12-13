@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-23
-Version: 1.0.0
+Version: 1.2.0
 '''
 
 # __LYBRARIES__ #
@@ -14,6 +14,7 @@ import os as file
 import openpyxl as xls
 from siguiente import Excel
 import threading as th
+import time
 
 
 # __MAIN CODE__ #
@@ -38,40 +39,70 @@ class Main_Window(Tk):
         self.exit.pack(anchor = SE, side = BOTTOM, padx = 10, pady = 5)
     
     def out(self):
+        self.kill_thread()
+        self.destroy()
+    
+    def kill_thread(self):
         if self.exe.is_alive():
             self.exe.join()
-        self.destroy()
         
     def run(self):
+        self.geometry('600x275')
         dir = self._frame.folder.get()
         bills = file.listdir(dir)
         excel = self._frame.excel.get()
         Label(self._frame, text='Procesando Archivos...')\
-            .grid(row=3, column=0)
+            .grid(row=2, column=0, sticky=W)
+        self.p_b = Progressbar(self._frame, length=500)
+        self.p_b.grid(row=3, columnspan=4)
         # Comprobamos que facturas han sido pasadas para no repetir
         process = list()
         for bil in bills:
-            nme = bil.split('.')[0].replace('-MAKRO', '')
+            nme = bil.split('.')[0].split(' - ')[-1]
+            if '.pdf' in nme:
+                nme = nme.replace('.pdf', '')
             if '.pdf' in bil and not nme in self._frame.ws_nms:
                 process.append(bil)
+        self.p_b.config(maximum=len(process))
         try:
-            self.n, self.m =1, len(process)
-            for bil in process:
+            self.n, self.m = 0, len(process)
+            for self.bil in process:
                 pdf = dir.replace('C:', '//') + '/' + bil
-                Label(self._frame, text=f'Archivo {self.n} de {self.m}')\
-                    .grid(row=3, column=2)
-                Excel(excel, pdf)
+                Label(self._frame, 
+                        text=f'Archivo {bil}')\
+                    .grid(row=4, column=0, columnspan=3, sticky=W)
+                Label(self._frame,
+                        text='\tLeyendo Archivo')\
+                    .grid(row=5, column=0, sticky=W)
+                Label(self._frame,
+                        text='\tCreando Hoja')\
+                    .grid(row=6, column=0, sticky=W)
+                Label(self._frame,
+                        text='\tEscribiendo')\
+                    .grid(row=7, column=0, sticky=W)
+                Excel(excel, pdf, self)
                 self.n += 1
+                self.p_b.step(1)
+                # time.sleep(2)
+            messagebox.showinfo(
+                message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
+                title="Porceso completado.")
+            self._frame.exe.config(text='Apagar', command=self._frame.kill)
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",
                 title="Permission Error"
             )
             self.run()
-        messagebox.showinfo(
-            message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
-            title="Porceso completado.")
-        self._frame.exe.config(text='Apagar', command=self._frame.kill)
+        except Exception as e:
+            messagebox.showerror(
+                title=type(e).__name__,
+                message=f'Ha ocurrido un error.\
+                \nPor favor contacte con el SAT y facilite la siguiente información:\
+                \n\t{e}\
+                \nAsí como el nombre de este ventana.\
+                \n\
+                \nFichero: {self.bil}')
         
     def switch_frames(self, frame):
         if self._frame is not None:
@@ -100,7 +131,7 @@ class Main_Frame(Frame):
         self.f_e = Button(self, text='···', width=3, command=self.select_excel)
         self.f_e.grid(row=1, column=3, sticky=E)
 
-        self.exe = Button(self, text='Run', command=self._master.exe.start)
+        self.exe = Button(self, text='Run', command=self.exe_run)
         self.exe.grid(row=2, column=3, sticky=E, pady=10)
 
     def select_excel(self):
@@ -124,9 +155,15 @@ class Main_Frame(Frame):
         self.folder.delete(0, END)
         self.folder.insert(0, dir)
 
-    def kill(self):
-        self._master.exe.join()
-        self._master.destroy()
+    def exe_run(self):
+        if not self.excel.get() == '' and not self.folder.get() == '':
+            self._master.exe.start()
+        else:
+            messagebox.showerror(
+                message="Verifique que ambos campos están complimentados y vuelva a intentarlo",
+                title='Campo vacío'
+            )
+
 
 def run():
     main = Main_Window()
@@ -135,7 +172,6 @@ def run():
 
 if __name__ == '__main__':
     run()
-    exit()
 
 # __NOTES__ #
 '''
