@@ -8,14 +8,16 @@ Version: 1.0.0
 
 # __LYBRARIES__ #
 from tika import parser
-
+from tkinter import messagebox
 
 
 # __MAIN CODE__ #
 class Makro:
-    def __init__(self, file_path):
+    def __init__(self, file_path, master=''):
         self.file = file_path.split('/')[-1]\
-            .split('.')[0].replace('-MAKRO', '')
+            .split('.')[0].split(' - ')[-1]
+        if '.pdf' in self.file:
+            self.file = self.file.replace('.pdf', '')
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
@@ -125,6 +127,7 @@ class Makro:
                     .replace('\\xc2\\xb1', '~')\
                     .replace('\\xc2\\xb4', ' ')\
                     .replace('\\xc2\\xba', '.')\
+                    .replace('\\xe2\\x82\\xac', 'E')\
                     .replace('\\xc3\\x81', 'A')\
                     .replace('\\xc3\\x89', 'E')\
                     .replace('\\xc3\\x8d', 'I')\
@@ -133,7 +136,7 @@ class Makro:
                     .replace('\\xc3\\x9a', 'U')\
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
-                # print(f'{row}\nlen: {len(row)}')
+                print(f'{row}\nlen: {len(row)}')
                 if len(row) > 100 and not '-' in row[80:90]:
                     D['codigo'] = ' '.join(row[3:18].split())  #! Nota 1
                     D['desc'] = ' '.join(row[18:52].split())
@@ -291,7 +294,7 @@ def run(files):
 
 
 if __name__ == '__main__':
-    files = ['21-07-12-MAKRO-03.pdf']
+    files = ['20-03-06 - MAKRO - 0-0(014)0012-(2020)066176.pdf']
     # files = file.listdir(dir)
     run(files)
 

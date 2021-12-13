@@ -16,10 +16,10 @@ Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un ciert
 
 
 Actualizaciones pendientes:<br/>
-   * 1.1.0 Error al cerrar la version ejecutable
-   * 1.1.1 Actualización para facturas de Merkadona
-   * 1.1.2 Actualización para facturas de Lidl
-   * 1.2.0 Error Handling
+   * 1.1.0 Error al cerrar la version ejecutable (Hecho)
+   * 1.2.1 Actualización para facturas de Merkadona
+   * 1.2.2 Actualización para facturas de Lidl
+   * 1.2.0 Error Handling (hecho para lectura)
    * 1.2.1 Actualización para lanzar varios procesos seguidos 
     
 
