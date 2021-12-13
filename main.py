@@ -67,9 +67,9 @@ class Main_Window(Tk):
         try:
             self.n, self.m = 0, len(process)
             for self.bil in process:
-                pdf = dir.replace('C:', '//') + '/' + bil
+                pdf = dir.replace('C:', '//') + '/' + self.bil
                 Label(self._frame, 
-                        text=f'Archivo {bil}')\
+                        text=f'Archivo {self.bil}')\
                     .grid(row=4, column=0, columnspan=3, sticky=W)
                 Label(self._frame,
                         text='\tLeyendo Archivo')\
@@ -87,7 +87,7 @@ class Main_Window(Tk):
             messagebox.showinfo(
                 message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
                 title="Porceso completado.")
-            self._frame.exe.config(text='Apagar', command=self._frame.kill)
+            self._frame.exe.config(text='Apagar', command=self.out)
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",

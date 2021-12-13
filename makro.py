@@ -136,7 +136,7 @@ class Makro:
                     .replace('\\xc3\\x9a', 'U')\
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
-                print(f'{row}\nlen: {len(row)}')
+                # print(f'{row}\nlen: {len(row)}')
                 if len(row) > 100 and not '-' in row[80:90]:
                     D['codigo'] = ' '.join(row[3:18].split())  #! Nota 1
                     D['desc'] = ' '.join(row[18:52].split())
