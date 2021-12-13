@@ -5,6 +5,8 @@ Descripción:<br/>
 
 Caracteristicas:<br/>
    * Es necesario emplear el fichero Excel proporcionado ya que ha sido modificado (lo mínimo e imprescindible) para adecuarse a las funcionalidades solicitadas y a las funciones creadas para cubrir estas últimas.
+   * El nombre de los archivos deverá respetar el siguiente esquema: YY/MM/DD - Proveedor - referencia</br/>
+   Si se pretende cambiar el formato, será necesario contactar con el desarrollador.
 
 Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un cierto criterio:
    * Consulta con el desarrolador.
