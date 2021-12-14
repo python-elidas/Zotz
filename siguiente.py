@@ -192,12 +192,6 @@ class Excel:
 
     def overview(self):
         self.ws = self.wb['Resumen']
-        bil = str()
-        for elem in self.new.split('-'):
-            if len(elem) != 2:
-                bil = '0' + str(elem)
-            bil += str(elem) + '-'
-        bil = '\'' + bil[:-1] + '\''
         self.row = 60
         # buscamos el grupo de celdas con el que trabajar:
         while not str(self.ws[f'B{self.row}'].value).startswith('=Sig'):
@@ -210,7 +204,7 @@ class Excel:
                 if str(self.ws.cell(row=self.row+i, column=col).value).startswith('=Sig'):
                     self.ws.cell(row=self.row+i, column=col).value = str(
                         self.ws.cell(row=self.row+i, column=col).value)\
-                        .replace('Siguiente', bil)
+                        .replace('Siguiente', self.new)
                 col += 1
 
 
