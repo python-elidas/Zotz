@@ -127,7 +127,7 @@ class Excel:
             # avanzamos a la siguiente fila
             self.row += 1
 
-    def write_discounts(self): # Pasamos a los decsuentos
+    def write_discounts(self): # Pasamos a los descuentos
         if not len(self.bill['descuentos']) == 0:
             for item in self.bill['descuentos']:
                 # insertamos la información
@@ -193,6 +193,7 @@ class Excel:
     def overview(self):
         self.ws = self.wb['Resumen']
         self.row = 60
+        bil = '\'' + self.new + '\''
         # buscamos el grupo de celdas con el que trabajar:
         while not str(self.ws[f'B{self.row}'].value).startswith('=Sig'):
             self.row += 1
@@ -202,9 +203,11 @@ class Excel:
             while self.ws.cell(row=self.row, column=col).value is not None:
                 # modifiquemos lo pertinente:
                 if str(self.ws.cell(row=self.row+i, column=col).value).startswith('=Sig'):
+                    # print(f'Antes: {str(self.ws.cell(row=self.row+i, column=col).value)}')
                     self.ws.cell(row=self.row+i, column=col).value = str(
                         self.ws.cell(row=self.row+i, column=col).value)\
-                        .replace('Siguiente', self.new)
+                        .replace('Siguiente', bil)
+                    # print(f'Despues: {str(self.ws.cell(row=self.row+i, column=col).value)}')
                 col += 1
 
 
