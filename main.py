@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-23
-Version: 1.2.0
+Version: 1.2.2
 '''
 
 # __LYBRARIES__ #
@@ -47,14 +47,26 @@ class Main_Window(Tk):
             self.exe.join()
         
     def run(self):
+        # modificamos la ventana para adaptarse a la nueva información
         self.geometry('600x275')
+        
+        # Obtenemos la infromacion del campo y deshabilitamos el campo y boton
         dir = self._frame.folder.get()
+        self._frame.folder['state'] = 'disabled'
+        self._frame.f_b['state'] = 'disabled'
+        
+        # Obtenemos la infromacion del campo y deshabilitamos el campo y boton
         bills = file.listdir(dir)
         excel = self._frame.excel.get()
+        self._frame.excel['state'] = 'disabled'
+        self._frame.f_e['state'] = 'disabled'
+        
+        # Empezamos a mostrar nueva información y creamos la barra de progreso
         Label(self._frame, text='Procesando Archivos...')\
             .grid(row=2, column=0, sticky=W)
         self.p_b = Progressbar(self._frame, length=500)
         self.p_b.grid(row=3, columnspan=4)
+        
         # Comprobamos que facturas han sido pasadas para no repetir
         process = list()
         for bil in bills:
@@ -63,11 +75,21 @@ class Main_Window(Tk):
                 nme = nme.replace('.pdf', '')
             if '.pdf' in bil and not nme in self._frame.ws_nms:
                 process.append(bil)
+                
+        # Establecemos el maxmimo de la barra de progreso
         self.p_b.config(maximum=len(process))
+        
+        # Empezamos a leer y convertir información
         try:
             self.n, self.m = 0, len(process)
+            # Iteramos por todas las facturas
             for self.bil in process:
+                # adecuamos el nombre del archivo
                 pdf = dir.replace('C:', '//') + '/' + self.bil
+                # mostramos mas infromacion
+                Label(self._frame,
+                      text=f'{self.n} de {self.m}')\
+                    .grid(row=2, column=2)                    
                 Label(self._frame, 
                         text=f'Archivo {self.bil}')\
                     .grid(row=4, column=0, columnspan=3, sticky=W)
@@ -84,16 +106,19 @@ class Main_Window(Tk):
                 self.n += 1
                 self.p_b.step(1)
                 # time.sleep(2)
+            # Una vez finalizado, avisamos.
             messagebox.showinfo(
                 message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
                 title="Porceso completado.")
             self._frame.exe.config(text='Apagar', command=self.out)
+        # si esta el excel abierto
         except PermissionError:
             messagebox.showerror(
                 message="Cierra el fichero Excel y vuelve a intentarlo",
                 title="Permission Error"
             )
             self.run()
+        # si se produce cualquier error
         except Exception as e:
             messagebox.showerror(
                 title=type(e).__name__,
