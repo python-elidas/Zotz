@@ -1,20 +1,20 @@
 # Zotz
 
-Descripción:<br/>
+Descripción:
     Se trata de un grupo de funciones desarrolladas para extraer y copiar la información relevante de un fichero pdf a un Excel.
 
-Caracteristicas:<br/>
+Caracteristicas:
    * Es necesario emplear el fichero Excel proporcionado ya que ha sido modificado (lo mínimo e imprescindible) para adecuarse a las funcionalidades solicitadas y a las funciones creadas para cubrir estas últimas.
-   * El nombre de los archivos deberá respetar el siguiente esquema: YY/MM/DD - Proveedor - referencia.</br>
+   * El nombre de los archivos deberá respetar el siguiente esquema: YY/MM/DD - Proveedor - referencia.
    Si se pretende cambiar el formato, será necesario contactar con el desarrollador.
 
 Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un cierto criterio:
    * Consulta con el desarrollador.
    * Si se van a cambiar los identificadores de los tipos de gasto habrá de hacerse
-   respetando la posicion original (D25 el primer ID, EF25 el primer concepto) de la tabla
-   si se va a cambiar la posición consulta con el desarrollador para actualizar el programa.
+     respetando la posicion original (D25 el primer ID, EF25 el primer concepto) de la tabla
+     si se va a cambiar la posición consulta con el desarrollador para actualizar el programa.
    * Si se van a añadir nuevos elementos de ID de gastos, se han de añadir a continuación de la 
-   tabla original y sin dejar espacios.
+     tabla original y sin dejar espacios.
 
 
 Actualizaciones pendientes:<br/>
