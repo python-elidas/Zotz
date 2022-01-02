@@ -11,6 +11,7 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Progressbar
 import os as file
+import simply_sqlite as sSQL
 import openpyxl as xls
 from siguiente import Excel
 import threading as th
@@ -50,12 +51,12 @@ class Main_Window(Tk):
         # modificamos la ventana para adaptarse a la nueva información
         self.geometry('600x275')
         
-        # Obtenemos la infromacion del campo y deshabilitamos el campo y boton
+        # Obtenemos la información del campo y deshabilitamos el campo y boton
         dir = self._frame.folder.get()
         self._frame.folder['state'] = 'disabled'
         self._frame.f_b['state'] = 'disabled'
         
-        # Obtenemos la infromacion del campo y deshabilitamos el campo y boton
+        # Obtenemos la información del campo y deshabilitamos el campo y boton
         bills = file.listdir(dir)
         excel = self._frame.excel.get()
         self._frame.excel['state'] = 'disabled'
@@ -76,7 +77,7 @@ class Main_Window(Tk):
             if '.pdf' in bil and not nme in self._frame.ws_nms:
                 process.append(bil)
                 
-        # Establecemos el maxmimo de la barra de progreso
+        # Establecemos el maximo de la barra de progreso
         self.p_b.config(maximum=len(process))
         
         # Empezamos a leer y convertir información
@@ -133,8 +134,8 @@ class Main_Window(Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = frame(self)
-        self._frame.pack(fill=NONE, expand=1)     
-
+        self._frame.pack(fill=NONE, expand=1)
+        
 
 class Main_Frame(Frame):
     def __init__(self, master):

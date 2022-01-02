@@ -13,18 +13,23 @@ from tkinter import messagebox
 
 # __MAIN CODE__ #
 class Makro:
-    def __init__(self, file_path, master=''):
-        self.file = file_path.split('/')[-1]\
-            .split('.')[0].split(' - ')[-1]
+    def __init__(self, file_path):
+        # Nos quedamos solo con el nombre del archivo.
+        file_name = file_path.split('/')[-1].split('.')[0]
+        # Cogemos el nombre de la hoja 
+        self.file = file_name.split(' - ')[-1]
         if '.pdf' in self.file:
             self.file = self.file.replace('.pdf', '')
+        # cogemos el nombre del Proveedor:
+        self.prov = str(file_name.split(' - ')[1]).capitalize()
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
+        # self.print_info(raw)
         raw = str(raw['content'])  # Seleccionamos el contenido relevante
         # establecemos codificación
         safe_text = raw.encode('utf-8', errors='ignore')
-        # separamos de froma que sea cómodo
+        # separamos de forma que sea cómodo
         self.safe_text = str(safe_text).split('\\n')
         # quitamos la morralla
         self.clean()
@@ -48,6 +53,15 @@ class Makro:
         # Obtenemos el total de la factura:
         self.get_ammont()
         print(f'File {self.file} readed.')
+        
+    def print_info(self, raw):
+        for key in list(raw.keys()):
+            if type(raw[key]) is dict:
+                print(list(raw[key].keys()))
+                self.print_info(raw[key])
+            else:
+                print(f'{key}: {raw[key]}')
+                return True
 
     def clean(self):
         # buscamos donde empiea lo interesante
@@ -151,7 +165,10 @@ class Makro:
                             .replace('-', '')) * -1
                     else:
                         D['uds'] = int(' '.join(row[90:99].split()))
-                    D['iva'] = int(' '.join(row[108:112].split()))
+                    iva = int(' '.join(row[108:112].split()))
+                    if iva == 0:
+                        iva = 6
+                    D['iva'] = iva
                     self.factura['articulos'].append(D)
                     if not ' '.join(row[118:126].split()) == '':
                         self.desc.append(row[118:126])
@@ -252,7 +269,7 @@ class Makro:
                         .split()[-1]
 
     def result(self):
-        return self.file, self.factura
+        return self.file, self.prov, self.factura
 
 
 def my_print(d):

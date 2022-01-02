@@ -22,4 +22,6 @@ Actualizaciones pendientes:<br/>
    * 1.2.0 Error Handling (hecho para lectura)
    * 1.3.0 Actualización para facturas de Merkadona
    * 1.4.0 Actualización para facturas de Lidl
-   * 2.0.0 Actualización para lanzar varios procesos seguidos 
+   * 2.0.0 Actualización para lanzar varios procesos seguidos
+   * 2.1.0 Manejo de la BBDD
+   * 2.2.0 Actualización de las referencias de una tabla

@@ -11,30 +11,36 @@ from tkinter import *
 import openpyxl as xls
 import simply_sqlite as SQL
 from makro import Makro
+from mercadona import Mercadona
 from datetime import datetime
 from sel_type import Sel_Type
 import time
 
 # __MAIN CODE__ #
 class Excel:
-    def __init__(self, xcel, pdf, master):
+    def __init__(self, xcel, pdf, master = ''):
         # obtiene la fecha de hoy
         self.today = datetime.now().strftime('%x')
         # obtenemos el nombre de la factura y su información
-        M = Makro(pdf, master)
-        self.new, self.bill = M.result()  #! generalizar
-        # damos informacion al usuario:
-        a = Label(master._frame, text='OK')
-        a.grid(row=5, column=1)
+        self.new, self.bill = self.select_case(pdf)
+        # damos Información al usuario:
+        try:
+            a = Label(master._frame, text='OK')
+            a.grid(row=5, column=1)
+        except:
+            pass
         # accedemos al excel
         self.wb = xls.load_workbook(filename=xcel, read_only=False)
         # creamos la hoja con la que trabajaremos
         self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
         # Establecemos el tituo de la nueva hoja
         self.ws.title = self.new
-        # damos informacion al usuario:
-        b = Label(master._frame, text='OK')
-        b.grid(row=6, column=1)
+        # damos información al usuario:
+        try:
+            b = Label(master._frame, text='OK')
+            b.grid(row=6, column=1)
+        except:
+            pass
         # Escribimos la cabecera
         self.write_head()
         # Comprobamos si existen elementos sin ID
@@ -52,14 +58,28 @@ class Excel:
         self.overview()
         # Guardamos los cambios
         self.wb.save(xcel)
-        # damos informacion al usuario:
-        c = Label(master._frame, text='OK')
-        c.grid(row=7, column=1)
+        # damos información al usuario:
+        try:
+            c = Label(master._frame, text='OK')
+            c.grid(row=7, column=1)
+        except:
+            pass
         print(f'Bill {self.new} Saved correctly!')
         time.sleep(1.5)
-        a.destroy()
-        b.destroy()
-        c.destroy()
+        try:
+            a.destroy()
+            b.destroy()
+            c.destroy()
+        except: 
+            pass
+        
+    def select_case(self, pdf):
+        case = {
+            'Makro' : Makro(pdf),
+            'Mercadona' : Mercadona(pdf)
+        }
+        self.prov = pdf.split(' - ')[1]
+        return case[self.prov].result()
 
     def write_head(self): # Escribimos los datos relevantes de la factura
         # número de factura y fecha
@@ -77,11 +97,15 @@ class Excel:
         db = SQL.SQL('files/zotz_db')
         no_ID = list()
         for item in self.bill['articulos']:
-            if len(db.show_one_row(
-                'Articulos', 'Codigo', item['codigo'])) == 0:
+            db_item = db.show_one_row(  # Por comodidad
+                self.prov,
+                'Codigo',
+                item['codigo'])
+            if len(db_item) == 0 \
+                and not item['codigo'] in no_ID:
                 no_ID.append(item)
         if not len(no_ID) == 0:
-            id = Sel_Type(no_ID, self.wb)
+            id = Sel_Type(no_ID, self.wb, self.prov)
             id.mainloop()
             
     def write_items(self): # empezamos con los articulos:
@@ -94,7 +118,7 @@ class Excel:
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
             self.ws[f'D{self.row}'] = list(db.show_one_row(
-                'Articulos', 'Codigo', item['codigo']))[0][2]
+                self.prov, 'Codigo', item['codigo']))[0][2]
             self.ws[f'E{self.row}'] = item['prec ud']
             self.ws[f'F{self.row}'] = item['ud pac']
             self.ws[f'G{self.row}'] = item['precio']
@@ -161,12 +185,12 @@ class Excel:
         self.ws[f'M{self.row+2}'].value = str(self.ws[f'M{self.row+2}'].value)\
             .replace('M62', f'M{self.row-1}')
 
-        # adecuamos las formaulas pertinentesa la infromacion que tenemos:
+        # adecuamos las fórmulas pertinentes la infromacion que tenemos:
         R, r = 19, 8
         J = [':$I$62', ':$K$62', ':$D$62']
         L = [':$L$62', ':$K$62', ':$D$62']
         M = [':$M$62', ':$K$62', ':$D$62']
-        while r <= 11:
+        while r <= 11: # este no
             for elem in J:
                 self.ws[f'J{r}'].value = str(self.ws[f'J{r}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
@@ -212,8 +236,8 @@ class Excel:
 
 
 if __name__ == '__main__':
-    xcel = 'C:/Users/osgum/Desktop/Zotz/2021-Gastos MAKRO.xlsx'
-    pdf = '///Users/osgum/Desktop/Zotz/Facturas_MAKRO/21-01-08-MAKRO-02.pdf'
+    xcel = 'C:/Users/osgum/Desktop/Zotz/Facturas_MERCADONA/Test/2021-Gastos MAKRO respaldo.xlsx'
+    pdf = '///Users/osgum/Desktop/Zotz/Facturas_MERCADONA/Test/21-01-08 - Mercadona - A-V2021-55203.pdf'
     test = Excel(xcel, pdf)
     print('Done!')
 

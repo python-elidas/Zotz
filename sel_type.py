@@ -17,11 +17,12 @@ from datetime import datetime
 
 # __MAIN CODE__ #
 class Sel_Type(Tk):
-    def __init__(self, no_ID, wb):
+    def __init__(self, no_ID, wb, table):
         Tk.__init__(self)
         
         # variables
         self.no_ID = no_ID
+        self.table = table
         self.ws = wb['Datos']
         self.ind = 0
         self.item = self.no_ID[0]
@@ -72,18 +73,18 @@ class Sel_Type(Tk):
         today = now.strftime('%x')
         db = SQL.SQL('files/zotz_db')
         #Insertamos el código del articulo
-        db.insert_info('Articulos', 'Codigo', self.item['codigo'])
+        db.insert_info(self.table, 'Codigo', self.item['codigo'])
         # insertamos la descripcion
         db.update(
-            'Articulos', 'Descripcion', 'Codigo',
+            self.table, 'Descripcion', 'Codigo',
             (self.item['desc'], self.item['codigo']))
         # Insertamos el ID
         db.update(
-            'Articulos', 'Tipo', 'Codigo',
+            self.table, 'Tipo', 'Codigo',
             (self.IDs[self.id.get()], self.item['codigo']))
         # Insertamos la fecha
         db.update(
-            'Articulos', 'TimeStamp', 'Codigo',
+            self.table, 'TimeStamp', 'Codigo',
             (today, self.item['codigo']))
         if self.ind == len(self.no_ID)-1:
             self.destroy()
