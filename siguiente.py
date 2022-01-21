@@ -15,6 +15,7 @@ from mercadona import Mercadona
 from datetime import datetime
 from sel_type import Sel_Type
 import time
+from auxiliares.toolPrint import *
 
 # __MAIN CODE__ #
 class Excel:
@@ -104,6 +105,7 @@ class Excel:
             if len(db_item) == 0 \
                 and not item['codigo'] in no_ID:
                 no_ID.append(item)
+        # listPrint(no_ID)
         if not len(no_ID) == 0:
             id = Sel_Type(no_ID, self.wb, self.prov)
             id.mainloop()
@@ -140,14 +142,14 @@ class Excel:
             self.ws[f'M{self.row+1}'] = self.ws[f'M{self.row}'].value\
                 .replace(str(self.row), str(self.row+1))
             # copaimos los formatos de las celdas
-            x = [
+            cols = [
                 'A', 'B', 'C',
                 'D', 'E', 'F',
                 'G', 'H', 'I',
                 'J', 'K', 'L', 'M'
             ]
-            for i in x:
-                self.ws[f'{i}{self.row+1}']._style = self.ws[f'{i}{self.row}']._style
+            for col in cols:
+                self.ws[f'{col}{self.row+1}']._style = self.ws[f'{col}{self.row}']._style
             # avanzamos a la siguiente fila
             self.row += 1
 
@@ -168,12 +170,12 @@ class Excel:
 
                 #Insertamos la siguiente fila:
                 self.insert_new_row()
-            
-        # eliminamos la fila que sobra
-        self.ws.delete_rows(self.row)
 
     def reorder(self):
+        # eliminamos la fila que sobra
+        self.ws.delete_rows(self.row)
         # ponemos en orden el desorden
+        # print(self.row)
         self.ws[f'F{self.row+2}'].value = str(self.ws[f'F{self.row+2}'].value)\
             .replace('F62', f'F{self.row-1}')
         self.ws[f'H{self.row+2}'].value = str(self.ws[f'H{self.row+2}'].value)\
@@ -184,7 +186,7 @@ class Excel:
             .replace('L62', f'L{self.row-1}')
         self.ws[f'M{self.row+2}'].value = str(self.ws[f'M{self.row+2}'].value)\
             .replace('M62', f'M{self.row-1}')
-
+        self.row -= 1
         # adecuamos las fórmulas pertinentes la infromacion que tenemos:
         R, r = 19, 8
         J = [':$I$62', ':$K$62', ':$D$62']
@@ -202,7 +204,8 @@ class Excel:
                     .replace(elem, elem[:-2]+str(self.row))
             r += 1
                     
-        while R <= 46:
+        while not self.ws[f'K{R}'].value == None:
+            print(self.ws[f'K{R}'].value)
             for elem in J:
                 self.ws[f'J{R}'].value = str(self.ws[f'J{R}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
@@ -213,6 +216,7 @@ class Excel:
                 self.ws[f'M{R}'].value = str(self.ws[f'M{R}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
             R += 1
+        print(R)
 
     def overview(self):
         self.ws = self.wb['Resumen']
@@ -237,7 +241,7 @@ class Excel:
 
 if __name__ == '__main__':
     xcel = 'C:/Users/osgum/Desktop/Zotz/Facturas_MERCADONA/Test/2021-Gastos MAKRO respaldo.xlsx'
-    pdf = '///Users/osgum/Desktop/Zotz/Facturas_MERCADONA/Test/21-01-08 - Mercadona - A-V2021-55203.pdf'
+    pdf = '///Users/osgum/Desktop/Zotz/Facturas_MERCADONA/Test/21-01-09 - Mercadona - A-V2021-67132.pdf'
     test = Excel(xcel, pdf)
     print('Done!')
 
