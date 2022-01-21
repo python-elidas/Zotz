@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-23
-Version: 1.2.2
+Version: 1.3.0
 '''
 
 # __LYBRARIES__ #
