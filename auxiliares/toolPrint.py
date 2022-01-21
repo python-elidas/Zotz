@@ -60,17 +60,4 @@ def listPrint(lst, n_splits=1):
 
 
 if __name__ == '__main__':
-	#__SHODAN TEST__#
-	shodan = shodanTool('TX6Il9Tp7r61DCaLf6SYJs8Kb8zYjFg3')
-	IPs = shodan.shodanIP('Apache 2.4.49', n_result=5)
-	#print(IPs)
-	
-	#__NMAP TEST__#
-	nmap = nmapTool(IPs)
-	nmap.printNmap(nmap.parseNmapScan())
-	
-	#__PRINT TEST__#
-	from structures import dictionary
-	#dictPrint(dictionary())
-	from structures import items
-	#listPrint(items(), 7)
+	pass
