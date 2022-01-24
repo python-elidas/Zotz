@@ -247,7 +247,8 @@ if __name__ == '__main__':
 
 # __NOTES__ #
 '''
-
+Creación del exe:
+    pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/osgum/github/Zotz/files/logo.ico" --name "Zotz_Cont v1.3.0" --add-data "C:/Users/osgum/github/Zotz/files;files/" --add-data "C:/Users/osgum/github/Zotz/LICENSE;." --add-data "C:/Users/osgum/github/Zotz/makro.py;." --add-data "C:/Users/osgum/github/Zotz/mercadona.py;." --add-data "C:/Users/osgum/github/Zotz/README.md;." --add-data "C:/Users/osgum/github/Zotz/sel_type.py;." --add-data "C:/Users/osgum/github/Zotz/siguiente.py;."  "C:/Users/osgum/github/Zotz/main.py"
 
 '''
 
