@@ -1,6 +1,6 @@
 # Zotz
 
-Descripción:`<br/>`
+Descripción:`<br>`
     Se trata de un grupo de funciones desarrolladas para extraer y copiar la información relevante de un fichero pdf a un Excel.
 
 Caracteristicas:`<br/>`
