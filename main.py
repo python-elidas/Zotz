@@ -121,7 +121,7 @@ class Main_Window(Tk):
             )
             self.run()
         # si se produce cualquier error
-        '''except Exception as e:
+        except Exception as e:
             messagebox.showerror(
                 title=type(e).__name__,
                 message=f'Ha ocurrido un error.\
@@ -129,7 +129,7 @@ class Main_Window(Tk):
                 \n\t{e}\
                 \nAsí como el nombre de este ventana.\
                 \n\
-                \nFichero: {self.bil}')'''
+                \nFichero: {self.bil}')
         
     def switch_frames(self, frame):
         if self._frame is not None:
