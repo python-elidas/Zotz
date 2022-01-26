@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-23
-Version: 1.3.0
+Version: 1.3.5
 '''
 
 # __LYBRARIES__ #
@@ -15,8 +15,7 @@ import simply_sqlite as sSQL
 import openpyxl as xls
 from siguiente import Excel
 import threading as th
-import time
-
+from file_manage import *
 
 
 # __MAIN CODE__ #
@@ -52,14 +51,15 @@ class Main_Window(Tk):
         # modificamos la ventana para adaptarse a la nueva información
         self.geometry('600x275')
         
-        # Obtenemos la información del campo y deshabilitamos el campo y boton
+        # Obtenemos la información del campo y deshabilitamos el campo y botón
         dir = self._frame.folder.get()
         self._frame.folder['state'] = 'disabled'
         self._frame.f_b['state'] = 'disabled'
         
-        # Obtenemos la información del campo y deshabilitamos el campo y boton
+        # Obtenemos la información del campo y deshabilitamos el campo y botón
         bills = file.listdir(dir)
-        excel = self._frame.excel.get()
+        excel = f'{self._frame.excel.get()}/{get_xcl_name(dir)}.xlsx'
+        print(excel)
         self._frame.excel['state'] = 'disabled'
         self._frame.f_e['state'] = 'disabled'
         
@@ -121,7 +121,7 @@ class Main_Window(Tk):
             )
             self.run()
         # si se produce cualquier error
-        except Exception as e:
+        '''except Exception as e:
             messagebox.showerror(
                 title=type(e).__name__,
                 message=f'Ha ocurrido un error.\
@@ -129,7 +129,7 @@ class Main_Window(Tk):
                 \n\t{e}\
                 \nAsí como el nombre de este ventana.\
                 \n\
-                \nFichero: {self.bil}')
+                \nFichero: {self.bil}')'''
         
     def switch_frames(self, frame):
         if self._frame is not None:
@@ -151,7 +151,7 @@ class Main_Frame(Frame):
         self.f_b = Button(self, text='···', width=3, command=self.select_folder)
         self.f_b.grid(row=1, column=1)
 
-        Label(self, text='Selecciona el Excel')\
+        Label(self, text='Selecciona la carpeta del Excel')\
             .grid(row=0, column=2, sticky=W, padx=10)
         self.excel = Entry(self, width=35)
         self.excel.grid(row=1, column=2, sticky=W, padx=10)
@@ -162,26 +162,39 @@ class Main_Frame(Frame):
         self.exe.grid(row=2, column=3, sticky=E, pady=10)
 
     def select_excel(self):
-        if self.folder.get() == '':
-            init = '/'
-        else:
-            init = self.folder.get()
-            init = '/'.join(init.split('/')[:-1])
-        xcel = filedialog.askopenfilename(
-            initialdir=init,
-            title='Selecciona el Libro de Excel',
-            filetypes=(("Excel files", "*.xlsx; *.xls"),)
-        )
+        xcel = filedialog.askdirectory(initialdir=self._init)
         self.excel.delete(0, END)
         self.excel.insert(0, xcel)
-        wb = xls.load_workbook(self.excel.get(), read_only=True)
+        if not find_excel(self.excel.get(), self.folder.get()):
+            nme = create_new_excl(self.excel.get(), self.file.get())
+        else:
+            nme = get_xcl_name(self.folder.get())
+        wb = xls.load_workbook(f'{self.excel.get()}/{nme}.xlsx', read_only=True)
         self.ws_nms = list(wb.sheetnames)
 
     def select_folder(self):
         dir = filedialog.askdirectory()
         self.folder.delete(0, END)
         self.folder.insert(0, dir)
-
+        same = messagebox.askyesno(
+            title='Selección de carpeta',
+            message='¿Desea emplear la misma carpeta para guardar el fichero Excel?'
+        )
+        if same:
+            self._init = dir
+            self.excel.delete(0, END)
+            self.excel.insert(0, dir)
+            self.excel['state'] = 'disabled'
+            self.f_e['state'] = 'disabled'
+            if not find_excel(self.excel.get(), self.folder.get()):
+                nme = create_new_excl(self.excel.get(), self.folder.get())
+            else:
+                nme = get_xcl_name(self.folder.get())
+            wb = xls.load_workbook(f'{self.excel.get()}/{nme}.xlsx', read_only=True)
+            self.ws_nms = list(wb.sheetnames)
+        else:
+            self._init = file.getcwd()
+            
     def exe_run(self):
         if not self.excel.get() == '' and not self.folder.get() == '':
             self._master.exe.start()
@@ -190,6 +203,7 @@ class Main_Frame(Frame):
                 message="Verifique que ambos campos están complimentados y vuelva a intentarlo",
                 title='Campo vacío'
             )
+
 
 
 def run():
@@ -202,7 +216,8 @@ if __name__ == '__main__':
 
 # __NOTES__ #
 '''
-
+Creación del exe:
+    pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/osgum/github/Zotz/files/logo.ico" --name "Zotz_Cont v1.3.0" --add-data "C:/Users/osgum/github/Zotz/files;files/" --add-data "C:/Users/osgum/github/Zotz/LICENSE;." --add-data "C:/Users/osgum/github/Zotz/makro.py;." --add-data "C:/Users/osgum/github/Zotz/mercadona.py;." --add-data "C:/Users/osgum/github/Zotz/README.md;." --add-data "C:/Users/osgum/github/Zotz/sel_type.py;." --add-data "C:/Users/osgum/github/Zotz/siguiente.py;."  "C:/Users/osgum/github/Zotz/main.py"
 '''
 
 # __BIBLIOGRAPHY__ #
