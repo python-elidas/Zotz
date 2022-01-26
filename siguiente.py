@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9.1
 Date: 2021-08-26T11:18:58.589Z
-Version: 1.3.0
+Version: 1.3.5
 '''
 
 # __LYBRARIES__ #
@@ -32,6 +32,10 @@ class Excel:
             pass
         # accedemos al excel
         self.wb = xls.load_workbook(filename=xcel, read_only=False)
+        # Comprobemos que el año es correcto:
+        if str(self.wb['Datos']['L16'].value).upper() == 'YYYY':
+            self.wb['Datos']['L16'].value = \
+                f"20{pdf.split('/')[-1].split(' - ')[0].split('-')[0]}"
         # creamos la hoja con la que trabajaremos
         self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
         # Establecemos el tituo de la nueva hoja
@@ -192,16 +196,16 @@ class Excel:
         J = [':$I$102', ':$K$102', ':$D$102']
         L = [':$L$102', ':$K$102', ':$D$102']
         M = [':$M$102', ':$K$102', ':$D$102']
-        while r <= 11: # este no
+        while r <= 11: 
             for elem in J:
                 self.ws[f'J{r}'].value = str(self.ws[f'J{r}'].value)\
-                    .replace(elem, elem[:-2]+str(self.row))
+                    .replace(elem, elem[:-3]+str(self.row))
             for elem in L:
                 self.ws[f'L{r}'].value = str(self.ws[f'L{r}'].value)\
-                    .replace(elem, elem[:-2]+str(self.row))
+                    .replace(elem, elem[:-3]+str(self.row))
             for elem in M:
                 self.ws[f'M{r}'].value = str(self.ws[f'M{r}'].value)\
-                    .replace(elem, elem[:-2]+str(self.row))
+                    .replace(elem, elem[:-3]+str(self.row))
             r += 1
                     
         while not self.ws[f'K{R}'].value == None:
@@ -247,8 +251,7 @@ if __name__ == '__main__':
 
 # __NOTES__ #
 '''
-Creación del exe:
-    pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/osgum/github/Zotz/files/logo.ico" --name "Zotz_Cont v1.3.0" --add-data "C:/Users/osgum/github/Zotz/files;files/" --add-data "C:/Users/osgum/github/Zotz/LICENSE;." --add-data "C:/Users/osgum/github/Zotz/makro.py;." --add-data "C:/Users/osgum/github/Zotz/mercadona.py;." --add-data "C:/Users/osgum/github/Zotz/README.md;." --add-data "C:/Users/osgum/github/Zotz/sel_type.py;." --add-data "C:/Users/osgum/github/Zotz/siguiente.py;."  "C:/Users/osgum/github/Zotz/main.py"
+
 
 '''
 

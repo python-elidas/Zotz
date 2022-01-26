@@ -19,8 +19,9 @@ Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un ciert
 
 Actualizaciones pendientes:<br/>
    * 1.1.0 Error al cerrar la version ejecutable (Hecho)
-   * 1.2.0 Error Handling (hecho para lectura)
-   * 1.3.0 Actualización para facturas de Merkadona
+   * 1.2.0 Error Handling (Hecho)
+   * 1.3.0 Actualización para facturas de Merkadona (Hecho)
+   * 1.3.5 Creacion de excel segun proveedor (Hecho)
    * 1.4.0 Actualización para facturas de Lidl
    * 2.0.0 Actualización para lanzar varios procesos seguidos
    * 2.1.0 Manejo de la BBDD
