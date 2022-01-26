@@ -113,7 +113,7 @@ class Excel:
     def write_items(self): # empezamos con los articulos:
         db = SQL.SQL('files/zotz_db')
         items = self.bill['articulos']
-        self.row = 62
+        self.row = 102
         for item in items:
             # obtenemos la referencia del tipo de producto
             self.ws[f'A{self.row}'] = self.row - 61  # escribimos el numero de la fila
@@ -134,7 +134,7 @@ class Excel:
     def insert_new_row(self):
             # insertamos la siguiente fila
             self.ws.insert_rows(self.row+1)
-            # cpiamos las formulas pertinentes
+            # copiamos las formulas pertinentes
             self.ws[f'K{self.row+1}'] = str(self.ws[f'K{self.row}'].value)\
                 .replace(str(self.row), str(self.row+1))
             self.ws[f'L{self.row+1}'] = self.ws[f'L{self.row}'].value\
@@ -177,21 +177,21 @@ class Excel:
         # ponemos en orden el desorden
         # print(self.row)
         self.ws[f'F{self.row+2}'].value = str(self.ws[f'F{self.row+2}'].value)\
-            .replace('F62', f'F{self.row-1}')
+            .replace('F102', f'F{self.row-1}')
         self.ws[f'H{self.row+2}'].value = str(self.ws[f'H{self.row+2}'].value)\
-            .replace('H62', f'H{self.row-1}')
+            .replace('H102', f'H{self.row-1}')
         self.ws[f'I{self.row+2}'].value = str(self.ws[f'I{self.row+2}'].value)\
-            .replace('I62', f'I{self.row-1}')
+            .replace('I102', f'I{self.row-1}')
         self.ws[f'L{self.row+2}'].value = str(self.ws[f'L{self.row+2}'].value)\
-            .replace('L62', f'L{self.row-1}')
+            .replace('L102', f'L{self.row-1}')
         self.ws[f'M{self.row+2}'].value = str(self.ws[f'M{self.row+2}'].value)\
-            .replace('M62', f'M{self.row-1}')
+            .replace('M102', f'M{self.row-1}')
         self.row -= 1
         # adecuamos las fórmulas pertinentes la infromacion que tenemos:
         R, r = 19, 8
-        J = [':$I$62', ':$K$62', ':$D$62']
-        L = [':$L$62', ':$K$62', ':$D$62']
-        M = [':$M$62', ':$K$62', ':$D$62']
+        J = [':$I$102', ':$K$102', ':$D$102']
+        L = [':$L$102', ':$K$102', ':$D$102']
+        M = [':$M$102', ':$K$102', ':$D$102']
         while r <= 11: # este no
             for elem in J:
                 self.ws[f'J{r}'].value = str(self.ws[f'J{r}'].value)\
@@ -205,7 +205,6 @@ class Excel:
             r += 1
                     
         while not self.ws[f'K{R}'].value == None:
-            print(self.ws[f'K{R}'].value)
             for elem in J:
                 self.ws[f'J{R}'].value = str(self.ws[f'J{R}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
@@ -216,7 +215,6 @@ class Excel:
                 self.ws[f'M{R}'].value = str(self.ws[f'M{R}'].value)\
                     .replace(elem, elem[:-2]+str(self.row))
             R += 1
-        print(R)
 
     def overview(self):
         self.ws = self.wb['Resumen']
@@ -230,7 +228,9 @@ class Excel:
             col = 1
             while self.ws.cell(row=self.row, column=col).value is not None:
                 # modifiquemos lo pertinente:
-                if str(self.ws.cell(row=self.row+i, column=col).value).startswith('=Sig'):
+                val = str(self.ws.cell(row=self.row+i, column=col).value)
+                # print(val)
+                if val.startswith('=Sig') or val.startswith('=IF(Sig'):
                     # print(f'Antes: {str(self.ws.cell(row=self.row+i, column=col).value)}')
                     self.ws.cell(row=self.row+i, column=col).value = str(
                         self.ws.cell(row=self.row+i, column=col).value)\
