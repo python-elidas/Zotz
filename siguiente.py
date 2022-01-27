@@ -80,10 +80,12 @@ class Excel:
         
     def select_case(self, pdf):
         case = {
-            'Makro' : Makro(pdf),
-            'Mercadona' : Mercadona(pdf)
+            'MAKRO' : Makro(pdf),
+            'MERCADONA' : Mercadona(pdf)
         }
-        self.prov = pdf.split(' - ')[1]
+        #print(pdf)
+        self.prov = pdf.split('/')[-1].split(' - ')[1].upper()
+        #print(self.prov)
         return case[self.prov].result()
 
     def write_head(self): # Escribimos los datos relevantes de la factura
@@ -101,15 +103,19 @@ class Excel:
     def get_id(self):
         db = SQL.SQL('files/zotz_db')
         no_ID = list()
+        aux = list()
         for item in self.bill['articulos']:
             db_item = db.show_one_row(  # Por comodidad
                 self.prov,
                 'Codigo',
                 item['codigo'])
+            #print(db_item)
             if len(db_item) == 0 \
-                and not item['codigo'] in no_ID:
+                and not item['codigo'] in aux:
+                aux.append(item['codigo'])
                 no_ID.append(item)
-        # listPrint(no_ID)
+                #print(aux, no_ID)
+        #listPrint(no_ID)
         if not len(no_ID) == 0:
             id = Sel_Type(no_ID, self.wb, self.prov)
             id.mainloop()
