@@ -128,6 +128,8 @@ class Mercadona:
                 break
     
     def gen_code(self, string):
+        if string.startswith('PARK'):
+            string = 'PARKING'
         model = hash.new('sha256')
         model.update(string.encode('utf-8'))
         return model.hexdigest()[:10]
