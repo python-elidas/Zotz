@@ -20,8 +20,6 @@ class Makro:
         self.file = file_name.split(' - ')[-1]
         if '.pdf' in self.file:
             self.file = self.file.replace('.pdf', '')
-        # cogemos el nombre del Proveedor:
-        self.prov = str(file_name.split(' - ')[1]).capitalize()
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
@@ -97,7 +95,7 @@ class Makro:
                 row = row.split('  ')
                 while row.count('') != 0:
                     row.remove('')
-                self.factura[row[0][:-15]] = row[1].split(' ')[1]
+                self.factura[row[0][:-15]] = row[1].split(' ')[1].replace('/', '-')
                 self.safe_text = self.safe_text[n:]
                 break
             if not bool and not row.find('Factura') == -1:
@@ -105,6 +103,8 @@ class Makro:
                 while row.count('') != 0:
                     row.remove('')
                 self.factura[row[0]] = row[1:3]
+                self.factura[row[0]][0] = self.factura[row[0]][0]\
+                    .replace('/', '-').replace(' ', '')
                 # comprobamos que no es una devolución
                 if row[0].startswith('Factura d'):
                     bool = True
@@ -269,7 +269,7 @@ class Makro:
                         .split()[-1]
 
     def result(self):
-        return self.file, self.prov, self.factura
+        return self.file, self.factura
 
 
 def my_print(d):
