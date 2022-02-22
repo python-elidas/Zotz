@@ -1,7 +1,7 @@
 '''
 Author: Elidas
 Email: pyro.elidas@gmail.com
-Python version: 3.9.1
+Python version: 3.9
 Date: 7/12/2021
 Version: 1.0.0
 '''

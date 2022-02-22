@@ -1,7 +1,7 @@
 '''
 Author: Elidas
 Email: pyro.elidas@gmail.com
-Python version: 3.9.1
+Python version: 3.9
 Date: 2021-08-24
 Version: 1.0.0
 '''
@@ -171,7 +171,7 @@ def to_txt(txt, factura):
 
 def run(files):
     import os as file
-    dir = 'C:/Users/osgum/Desktop/Zotz/Facturas_MERCADONA'
+    dir = 'C:/Users/osgum/Desktop/Zotz/Facturas_MERCADONA/test'
     for item in files:
         print(f'Item: {item}')
         try:
@@ -186,7 +186,7 @@ def run(files):
 
 
 if __name__ == '__main__':
-    files = ['21-01-08 - Mercadona - A-V2021-55203.pdf']
+    files = ['21-12-23 - Mercadona - A-V2021-00004429053.pdf']
     # files = file.listdir(dir)
     run(files)
 

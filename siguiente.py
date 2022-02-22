@@ -1,8 +1,8 @@
 '''
 Author: Elidas
 Email: pyro.elidas@gmail.com
-Python version: 3.9.1
-Date: 2021-08-26T11:18:58.589Z
+Python version: 3.9
+Date: 2021-08-26
 Version: 1.3.5
 '''
 
@@ -100,7 +100,7 @@ class Excel:
 
     def get_id(self):
         db = SQL.SQL('files/zotz_db')
-        no_ID = list()
+        no_ID = set()
         for item in self.bill['articulos']:
             db_item = db.show_one_row(  # Por comodidad
                 self.prov,
@@ -108,7 +108,7 @@ class Excel:
                 item['codigo'])
             if len(db_item) == 0 \
                 and not item['codigo'] in no_ID:
-                no_ID.append(item)
+                no_ID.add(item)
         # listPrint(no_ID)
         if not len(no_ID) == 0:
             id = Sel_Type(no_ID, self.wb, self.prov)
