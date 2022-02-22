@@ -25,6 +25,7 @@ class Mercadona:
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
+        print(raw)
         self.clean(raw)
         # creamos el diccionario que devolveremos al final
         self.factura = dict()
@@ -188,7 +189,7 @@ def run(files):
 
 
 if __name__ == '__main__':
-    files = ['21-01-08 - Mercadona - A-V2021-55203.pdf']
+    files = ['21-11-16 - Mercadona - A-V2021-00003963695.pdf']
     # files = file.listdir(dir)
     run(files)
 
