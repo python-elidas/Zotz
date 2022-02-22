@@ -102,21 +102,19 @@ class Excel:
 
     def get_id(self):
         db = SQL.SQL('files/zotz_db')
-        no_ID = list()
-        aux = list()
+        no_ID = set()
         for item in self.bill['articulos']:
             db_item = db.show_one_row(  # Por comodidad
                 self.prov,
                 'Codigo',
                 item['codigo'])
             #print(db_item)
-            if len(db_item) == 0 \
-                and not item['codigo'] in aux:
-                aux.append(item['codigo'])
-                no_ID.append(item)
+            if len(db_item) == 0:
+                no_ID.add(item)
                 #print(aux, no_ID)
         #listPrint(no_ID)
         if not len(no_ID) == 0:
+            no_ID = list(no_ID)
             id = Sel_Type(no_ID, self.wb, self.prov)
             id.mainloop()
             
