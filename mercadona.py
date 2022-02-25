@@ -25,7 +25,7 @@ class Mercadona:
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
-        #[print(i) for i in raw['content'].split('\n')]
+        [print(i) for i in raw['content'].split('\n')]
         self.clean(raw)
         # creamos el diccionario que devolveremos al final
         self.factura = dict()
@@ -33,16 +33,18 @@ class Mercadona:
         self.get_date()
         # Obtenemos el numero de factura:
         self.get_bill_num()
-        # Limpiamos nuevamente:
-        self.clean2()
-        # Obtenemos los articulos:
-        try:
-            self.get_items()
-        except Exception:
-            self.get_items_v2()
-        # si no es devolucion
-        
-        # Obtenemos el total de la factura:
+        pages = list(raw['metadata'].keys())[-1]
+        for i in range(int(raw['metadata'][pages])):
+            # Limpiamos nuevamente:
+            self.clean2()
+            # Obtenemos los articulos:
+            try:
+                self.get_items()
+            except Exception:
+                self.get_items_v2()
+            # si no es devolucion
+            
+            # Obtenemos el total de la factura:
         self.get_ammont()
         print(f'File {self.file} readed.')
         
@@ -146,10 +148,11 @@ class Mercadona:
         n = 0
         # creamos in diccionario con los ids de los ivas:
         iva = {'10': 1, '21': 2, '4': 5, '0': 6}
-        # creamos la lista que almacenará los articulos
-        self.factura['articulos'] = list()
-        # Creamos la lista de descuentos por si existen descuentos inline
-        # self.factura['descuentos'] = list() # !Nota 2
+        if not 'articulos' in self.factura:
+            # creamos la lista que almacenará los articulos
+            self.factura['articulos'] = list()
+            # Creamos la lista de descuentos por si existen descuentos inline
+            # self.factura['descuentos'] = list() # !Nota 2
         # creamos la lista con los códigos de los descuentos
         for row in self.safe_text:
             D = dict()  # Los articulos se almacenan en forma de diccionario

@@ -38,21 +38,23 @@ class Makro:
         self.get_date()
         # Obtenemos el numero de factura:
         self.get_bill_num()
-        # Quitamos mas morralla
-        self.clean2()
-        # Obtenemos los articulos:
-        try:
-            self.get_items()
-        except ValueError:
-            self.get_items_v2()
-        # si no es devolucion
-        if not 'Factura devolucion' in list(self.factura.keys()):
-            # verificamos la existencia de descuentos 
+        pages = list(raw['metadata'].keys())[-1]
+        for i in range(int(raw['metadata'][pages])):
+            # Quitamos mas morralla
+            self.clean2()
+            # Obtenemos los articulos:
             try:
-                self.get_disc()
-            except Exception:
-                self.get_disc_v2()
-        # Obtenemos el total de la factura:
+                self.get_items()
+            except ValueError:
+                self.get_items_v2()
+            # si no es devolucion
+            if not 'Factura devolucion' in list(self.factura.keys()):
+                # verificamos la existencia de descuentos 
+                try:
+                    self.get_disc()
+                except Exception:
+                    self.get_disc_v2()
+            # Obtenemos el total de la factura:
         self.get_ammont()
         print(f'File {self.file} readed.')
         
@@ -129,10 +131,11 @@ class Makro:
 
     def get_items(self):
         n = 0
-        # creamos la lista que almacenará los articulos
-        self.factura['articulos'] = list()
-        # Creamos la lista de descuentos por si existen descuentos inline
-        self.factura['descuentos'] = list()
+        if not 'articulos' in self.factura:
+            # creamos la lista que almacenará los articulos
+            self.factura['articulos'] = list()
+            # Creamos la lista de descuentos por si existen descuentos inline
+            self.factura['descuentos'] = list()
         # creamos la lista con los códigos de los descuentos
         self.desc = list()
         for row in self.safe_text:
