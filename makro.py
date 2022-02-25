@@ -23,6 +23,7 @@ class Makro:
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
+        #[print(i) for i in raw['content'].split('\n')]
         # self.print_info(raw)
         raw = str(raw['content'])  # Seleccionamos el contenido relevante
         # establecemos codificación
@@ -47,7 +48,10 @@ class Makro:
         # si no es devolucion
         if not 'Factura devolucion' in list(self.factura.keys()):
             # verificamos la existencia de descuentos 
-            self.get_disc()
+            try:
+                self.get_disc()
+            except Exception:
+                self.get_disc_v2()
         # Obtenemos el total de la factura:
         self.get_ammont()
         print(f'File {self.file} readed.')
@@ -210,11 +214,7 @@ class Makro:
                         .replace('\\xc3\\x9a', 'U')\
                         .replace('\'', ' ')\
                     # solo se tienen en cuenta las filas con infromacion relevante
-                    row_ = row.split('   ')
-                    row = list()
-                    for item in row_:
-                        if not item == '' and not item == 'M':
-                            row.append(item)
+                    row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
                     # print(f'{row}')
                     if len(row) >= 9 and not '-' in str(row[5]):
                         D['codigo'] = row[0]
@@ -254,7 +254,27 @@ class Makro:
                 D['iva'] = int(row[-2])
                 D['code'] = row[-1]
                 self.factura['descuentos'].append(D)
+                n += 1
             elif row.startswith('-') and n < 1:
+                self.safe_text = self.safe_text[n:]
+                break
+    
+    def get_disc_v2(self):
+        n = 0
+        if len(self.factura['descuentos']) == 0:
+            self.factura['descuentos'] = list()
+        for row in self.safe_text:
+            if self.desc and not row.startswith('-'):
+                row = [i.strip() for i in row.split('   ') if not i == '']
+                print(row)
+                if not len(row) == 0:
+                    D = dict()
+                    D['val'] = float(row[-3][:-1].replace(',', '.')) * -1
+                    D['iva'] = int(row[-2])
+                    D['code'] = row[-1]
+                    self.factura['descuentos'].append(D)
+                n += 1
+            elif row.startswith('-') and n > 1:
                 self.safe_text = self.safe_text[n:]
                 break
 
@@ -294,26 +314,30 @@ def to_txt(txt, factura):
     info.close()
 
 
-def run(files):
-    import os as file
-    dir = 'C:/Users/osgum/Desktop/Zotz/Facturas_MAKRO'
-    for item in files:
-        print(f'Item: {item}')
+def run(files, to_txt=False):
+    import os
+    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MAKRO'
+    if len(files) == 0:
+        dir += '/test'
+        files = os.listdir(dir)
+    for file in files:
+        pdf = f"{dir.replace('C:/', '///')}/{file}"
+        print(f'Item: {file}')
         try:
-            pdf = dir.replace('C:', '//') + '/' + item
-            # txt = dir + '/txt/' + item.replace('.pdf', '.txt')
             M = Makro(pdf)
             name, factura = M.result()
             my_print(factura)
-            # to_txt(txt, factura)
+            if to_txt:
+                txt = dir + '/txt/' + file.replace('.pdf', '.txt')
+                to_txt(txt, factura)
         except PermissionError:
             pass
 
 
 if __name__ == '__main__':
-    files = ['20-03-06 - MAKRO - 0-0(014)0012-(2020)066176.pdf']
-    # files = file.listdir(dir)
-    run(files)
+    file = ['21-08-21 - MAKRO - 0-0(014)0007-(2021)233062.pdf']
+    #file = list()
+    run(file)
 
 # __NOTES__ #
 '''
