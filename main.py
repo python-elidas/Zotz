@@ -10,8 +10,6 @@ Version: 1.3.5
 from tkinter import *
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Progressbar
-import os as file
-import simply_sqlite as sSQL
 import openpyxl as xls
 from siguiente import Excel
 import threading as th
@@ -96,14 +94,14 @@ class Main_Window(Tk):
                         text=f'Archivo {self.bil}')\
                     .grid(row=4, column=0, columnspan=3, sticky=W)
                 Label(self._frame,
-                        text='\tLeyendo Archivo')\
-                    .grid(row=5, column=0, sticky=W)
-                Label(self._frame,
-                        text='\tCreando Hoja')\
+                        text='\tLeyendo Archivo PDF')\
                     .grid(row=6, column=0, sticky=W)
                 Label(self._frame,
-                        text='\tEscribiendo')\
+                        text='\tCreando Hoja Excel')\
                     .grid(row=7, column=0, sticky=W)
+                Label(self._frame,
+                        text='\tEscribiendo Información')\
+                    .grid(row=8, column=0, sticky=W)
                 Excel(excel, pdf, self)
                 self.n += 1
                 self.p_b.step(1)
@@ -122,14 +120,45 @@ class Main_Window(Tk):
             self.run()
         # si se produce cualquier error
         except Exception as e:
+            f, line, func = self.catch_error(e)
             messagebox.showerror(
                 title=type(e).__name__,
-                message=f'Ha ocurrido un error.\
-                \nPor favor contacte con el SAT y facilite la siguiente información:\
-                \n\t{e}\
-                \nAsí como el nombre de este ventana.\
-                \n\
-                \nFichero: {self.bil}')
+                message=f'Ha ocurrido un error:\
+                \n[+] En el archivo {self.bil}\
+                \n[+] En el script {f}\
+                \n[+] En la linea {line.split(" ")[-1]}\
+                \n[+] En la funcion {func}\
+                \nSe almacenará en el Registro de errores')
+            self.record_errors(e)
+        
+    def catch_error(self, e):
+        import traceback
+        
+        info = str(traceback.extract_tb(e.__traceback__)[-1])\
+            [1:-1].replace('\\', '/').split(',')
+        return  info[0].split('/')[-1],\
+                info[-1].split(' in ')[0],\
+                info[-1].split(' in ')[-1]
+            
+    def record_errors(self, e):
+        import traceback, datetime
+        
+        error = str(traceback.format_exc()).split('\n')[1:-1]
+        now = datetime.datetime.now()
+        day = now.strftime('%d/%m/%Y %H:%M')
+        
+        with open('files/ErrorLog.txt', 'a') as fw:
+            fw.write(f'Error at date {day}:\n')
+            fw.write(f'[+] While reading the file: {self.bil}\n')
+            fw.write(f'[+] The type of the error was: {type(e).__name__}\n')
+            fw.write(f'The text was:\n')
+            for info in error:
+                if info.startswith('  '):
+                    fw.write(f'[+] {str(info)[2:]}\n')
+                else:
+                    fw.write(f'[+]\t{str(info)}\n')
+            fw.write('\n')
+            fw.close()
         
     def switch_frames(self, frame):
         if self._frame is not None:
@@ -173,6 +202,7 @@ class Main_Frame(Frame):
         self.ws_nms = list(wb.sheetnames)
 
     def select_folder(self):
+        import os as file
         dir = filedialog.askdirectory()
         self.folder.delete(0, END)
         self.folder.insert(0, dir)

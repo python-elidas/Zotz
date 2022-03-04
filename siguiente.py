@@ -12,6 +12,7 @@ import openpyxl as xls
 import simply_sqlite as SQL
 from makro import Makro
 from mercadona import Mercadona
+from lidl import Lidl
 from datetime import datetime
 from sel_type import Sel_Type
 import time
@@ -20,22 +21,27 @@ from auxiliares.toolPrint import *
 # __MAIN CODE__ #
 class Excel:
     def __init__(self, xcel, pdf, master = ''):
+        self.op = Label(master._frame, text='Iniciando...')
+        self.op.grid(row=5, columnspan=2)
         # obtiene la fecha de hoy
         self.today = datetime.now().strftime('%x')
         # obtenemos el nombre de la factura y su información
-        self.new, self.bill = self.select_case(pdf)
+        self.op.config(text='Procesando PDF...')
+        self.new, self.bill = self.select_case(pdf).result()
         # damos Información al usuario:
         try:
             a = Label(master._frame, text='OK')
-            a.grid(row=5, column=1)
+            a.grid(row=6, column=1)
         except:
             pass
+        self.op.config(text='Abriendo Excel...') 
         # accedemos al excel
         self.wb = xls.load_workbook(filename=xcel, read_only=False)
         # Comprobemos que el año es correcto:
         if str(self.wb['Datos']['L16'].value).upper() == 'YYYY':
             self.wb['Datos']['L16'].value = \
                 f"20{pdf.split('/')[-1].split(' - ')[0].split('-')[0]}"
+        self.op.config(text='Creando nueva HOja de Excel...')
         # creamos la hoja con la que trabajaremos
         self.ws = self.wb.copy_worksheet(self.wb['Siguiente'])
         # Establecemos el tituo de la nueva hoja
@@ -43,12 +49,14 @@ class Excel:
         # damos información al usuario:
         try:
             b = Label(master._frame, text='OK')
-            b.grid(row=6, column=1)
+            b.grid(row=7, column=1)
         except:
             pass
         # Escribimos la cabecera
+        self.op.config(text='Escribiendo cabecera...')
         self.write_head()
         # Comprobamos si existen elementos sin ID
+        self.op.config(text='Obteniendo elementos sin ID...')
         self.get_id()
         # Escribimos los articulos:
         self.write_items()
@@ -58,20 +66,24 @@ class Excel:
         except KeyError:
             pass
         # reordenamos el desorden:
+        self.op.config(text='Poniendo orden...')
         self.reorder() 
         # ejecutamos el siguiente paso:
+        self.op.config(text='Pasamos al resumen...')
         self.overview()
         # Guardamos los cambios
+        self.op.config(text='Guardamos los cambios')
         self.wb.save(xcel)
         # damos información al usuario:
         try:
             c = Label(master._frame, text='OK')
-            c.grid(row=7, column=1)
+            c.grid(row=8, column=1)
         except:
             pass
         print(f'Bill {self.new} Saved correctly!')
         time.sleep(1.5)
         try:
+            self.op.destroy()
             a.destroy()
             b.destroy()
             c.destroy()
@@ -80,11 +92,14 @@ class Excel:
         
     def select_case(self, pdf):
         case = {
-            'Makro' : Makro(pdf),
-            'Mercadona' : Mercadona(pdf)
+            'MAKRO' : Makro,
+            'MERCADONA' : Mercadona,
+            'LIDL' : Lidl
         }
-        self.prov = pdf.split(' - ')[1]
-        return case[self.prov].result()
+        self.prov = pdf.split('/')[-1].split(' - ')[1].upper()
+        # print(self.prov)
+        # print(pdf)
+        return case[self.prov](pdf)
 
     def write_head(self): # Escribimos los datos relevantes de la factura
         # número de factura y fecha
@@ -100,27 +115,32 @@ class Excel:
 
     def get_id(self):
         db = SQL.SQL('files/zotz_db')
-        no_ID = set()
+        no_ID, aux = list(),  set()
         for item in self.bill['articulos']:
             db_item = db.show_one_row(  # Por comodidad
                 self.prov,
                 'Codigo',
                 item['codigo'])
-            if len(db_item) == 0 \
-                and not item['codigo'] in no_ID:
-                no_ID.add(item)
-        # listPrint(no_ID)
+            #print(db_item)
+            if len(db_item) == 0 and not item['codigo'] in aux:
+                no_ID.append(item)
+                aux.add(item['codigo'])
+                #print(aux, no_ID)
+        #listPrint(no_ID)
         if not len(no_ID) == 0:
+            no_ID = no_ID
             id = Sel_Type(no_ID, self.wb, self.prov)
             id.mainloop()
             
     def write_items(self): # empezamos con los articulos:
         db = SQL.SQL('files/zotz_db')
         items = self.bill['articulos']
-        self.row = 102
+        self.row = 110
         for item in items:
+            n = items.index(item)
+            self.op.config(text=f'Escribiendo artículo {n} de {len(items)}')
             # obtenemos la referencia del tipo de producto
-            self.ws[f'A{self.row}'] = self.row - 61  # escribimos el numero de la fila
+            self.ws[f'A{self.row}'] = self.row - 110  # escribimos el numero de la fila
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
             self.ws[f'D{self.row}'] = list(db.show_one_row(
@@ -129,7 +149,7 @@ class Excel:
             self.ws[f'F{self.row}'] = item['ud pac']
             self.ws[f'G{self.row}'] = item['precio']
             self.ws[f'H{self.row}'] = item['uds']
-            self.ws[f'I{self.row}'] = item['precio'] * int(item['uds'])
+            self.ws[f'I{self.row}'] = item['precio'] * float(item['uds'].replace(',', '.'))
             self.ws[f'J{self.row}'] = item['iva']
             
             #Insertamos la siguiente fila:
