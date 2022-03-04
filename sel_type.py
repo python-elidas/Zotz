@@ -9,6 +9,7 @@ Version: 1.0.0
 # __LIBRARIES__ #
 from os import kill
 from tkinter import *
+from tkinter import messagebox
 from tkinter.ttk import Combobox
 import openpyxl as xls
 import simply_sqlite as SQL
@@ -50,12 +51,18 @@ class Sel_Type(Tk):
         
     def next(self):
         # es mas sencillo esto que cambiar toda la funcion
-        self.save_ID()
-        self.ind += 1
-        self.item = self.no_ID[self.ind]
-        self.name.config(text=self.item['desc'])
-        if self.ind == len(self.no_ID)-1:
-            self.save.config(text='Guardar', command=self.save_ID)
+        if self.id.get() != '':
+            self.save_ID()
+            self.ind += 1
+            self.item = self.no_ID[self.ind]
+            self.name.config(text=self.item['desc'])
+            if self.ind == len(self.no_ID)-1:
+                self.save.config(text='Guardar', command=self.save_ID)
+        else:
+            messagebox.showerror(
+                title='Cuadro de Texto Vacío.',
+                message='Compruebe que ha rellenado correctamente el cuadro de texto y vuelva a intentarlo.'
+            )
         
     def get_id(self):
         self.IDs = dict()

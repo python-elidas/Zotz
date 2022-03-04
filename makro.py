@@ -23,9 +23,11 @@ class Makro:
         print(f'File {self.file} loaded.')
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
+        pages = int(raw['metadata'][list(raw['metadata'].keys())[-1]])
         #[print(i) for i in raw['content'].split('\n')]
         # self.print_info(raw)
         raw = str(raw['content'])  # Seleccionamos el contenido relevante
+        #print(raw)
         # establecemos codificación
         safe_text = raw.encode('utf-8', errors='ignore')
         # separamos de forma que sea cómodo
@@ -38,8 +40,10 @@ class Makro:
         self.get_date()
         # Obtenemos el numero de factura:
         self.get_bill_num()
-        pages = list(raw['metadata'].keys())[-1]
-        for i in range(int(raw['metadata'][pages])):
+        for i in range(pages):
+            
+            if i >= 1:
+                self.clean()
             # Quitamos mas morralla
             self.clean2()
             # Obtenemos los articulos:
@@ -77,6 +81,7 @@ class Makro:
                 break
         # nos quedamos solo con lo que interesa
         self.safe_text = self.safe_text[n:]
+        #print(self.safe_text)
 
     def get_date(self):
         n = 0
@@ -144,7 +149,7 @@ class Makro:
             if not row.startswith('-'):
                 # eliminamos los carácteres extraños
                 row = row\
-                    .replace('\\xc2\\x9c', 'U')\
+                    .replace('\\xc2\\xaa', 'a')\
                     .replace('\\xc2\\xb1', '~')\
                     .replace('\\xc2\\xb4', ' ')\
                     .replace('\\xc2\\xba', '.')\
@@ -155,9 +160,10 @@ class Makro:
                     .replace('\\xc3\\x91', 'N')\
                     .replace('\\xc3\\x93', 'O')\
                     .replace('\\xc3\\x9a', 'U')\
+                    .replace('\\xc2\\x9c', 'U')\
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
-                # print(f'{row}\nlen: {len(row)}')
+                # print(f'{row}, n = {n}\n')
                 if len(row) > 100 and not '-' in row[80:90]:
                     D['codigo'] = ' '.join(row[3:18].split())  #! Nota 1
                     D['desc'] = ' '.join(row[18:52].split())
@@ -177,8 +183,10 @@ class Makro:
                         iva = 6
                     D['iva'] = iva
                     self.factura['articulos'].append(D)
-                    if not ' '.join(row[118:126].split()) == '':
+                    d_cod = ' '.join(row[118:126].split()) 
+                    if not d_cod == '' and len(d_cod) > 1:
                         self.desc.append(row[118:126])
+                        #print('v1')
                 elif len(row) > 100 and '-' in row[80:90]:
                     D['code'] = ' '.join(row[3:18].split())
                     D['val'] = float(' '.join(row[80:90]
@@ -186,7 +194,6 @@ class Makro:
                                                 .replace('-', '')) * -1
                     D['iva'] = int(' '.join(row[108:112].split()))
                     self.factura['descuentos'].append(D)
-                    
             else:
                 self.safe_text = self.safe_text[n:]
                 break
@@ -205,7 +212,7 @@ class Makro:
                 if not row.startswith('-'):
                     # eliminamos los carácteres extraños
                     row = row\
-                        .replace('\\xc2\\x9c', 'U')\
+                        .replace('\\xc2\\xaa', 'a')\
                         .replace('\\xc2\\xb1', '~')\
                         .replace('\\xc2\\xb4', ' ')\
                         .replace('\\xc2\\xba', '.')\
@@ -215,6 +222,7 @@ class Makro:
                         .replace('\\xc3\\x91', 'N')\
                         .replace('\\xc3\\x93', 'O')\
                         .replace('\\xc3\\x9a', 'U')\
+                        .replace('\\xc2\\x9c', 'U')\
                         .replace('\'', ' ')\
                     # solo se tienen en cuenta las filas con infromacion relevante
                     row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
@@ -231,16 +239,17 @@ class Makro:
                             D['uds'] = int(row[6])
                         D['iva'] =int(row[8])
                         self.factura['articulos'].append(D)
-                        if len(row) > 9 and not row[9] == 'P':
+                        #print(row)
+                        if len(row) > 9 and len(row[9].strip()) > 1:
                             self.desc.append(row[8:])
+                            #print('v2')
                     elif len(row) >= 9 and '-' in str(row[5]):
                         D['code'] = row[0]
                         D['val'] = float(str(row[5])
                                                 .replace(',', '.')\
                                                 .replace('-', '')) * -1
                         D['iva'] = int(row[8])
-                        self.factura['descuentos'].append(D)
-                        
+                        self.factura['descuentos'].append(D)  
                 else:
                     self.safe_text = self.safe_text[n:]
                     break
@@ -250,15 +259,30 @@ class Makro:
         if len(self.factura['descuentos']) == 0:
             self.factura['descuentos'] = list()
         for row in self.safe_text:
+            row = row\
+                        .replace('\\xc2\\x9c', 'U')\
+                        .replace('\\xc2\\xaa', 'a')\
+                        .replace('\\xc2\\xb1', '~')\
+                        .replace('\\xc2\\xb4', ' ')\
+                        .replace('\\xc2\\xba', '.')\
+                        .replace('\\xc3\\x81', 'A')\
+                        .replace('\\xc3\\x89', 'E')\
+                        .replace('\\xc3\\x8d', 'I')\
+                        .replace('\\xc3\\x91', 'N')\
+                        .replace('\\xc3\\x93', 'O')\
+                        .replace('\\xc3\\x9a', 'U')\
+                        .replace('\'', ' ')
+            #print(self.desc)
             if self.desc and not row.startswith('-'):
                 row = ' '.join(row.split()).split()
+                #print(row)
                 D = dict()
                 D['val'] = float(row[-3][:-1].replace(',', '.')) * -1
                 D['iva'] = int(row[-2])
                 D['code'] = row[-1]
                 self.factura['descuentos'].append(D)
                 n += 1
-            elif row.startswith('-') and n < 1:
+            elif row.startswith('-') and n >= 1:
                 self.safe_text = self.safe_text[n:]
                 break
     
@@ -267,9 +291,22 @@ class Makro:
         if len(self.factura['descuentos']) == 0:
             self.factura['descuentos'] = list()
         for row in self.safe_text:
+            row = row\
+                        .replace('\\xc2\\xaa', 'a')\
+                        .replace('\\xc2\\xb1', '~')\
+                        .replace('\\xc2\\xb4', ' ')\
+                        .replace('\\xc2\\xba', '.')\
+                        .replace('\\xc3\\x81', 'A')\
+                        .replace('\\xc3\\x89', 'E')\
+                        .replace('\\xc3\\x8d', 'I')\
+                        .replace('\\xc3\\x91', 'N')\
+                        .replace('\\xc3\\x93', 'O')\
+                        .replace('\\xc3\\x9a', 'U')\
+                        .replace('\\xc2\\x9c', 'U')\
+                        .replace('\'', ' ')
             if self.desc and not row.startswith('-'):
                 row = [i.strip() for i in row.split('   ') if not i == '']
-                print(row)
+                #print(row)
                 if not len(row) == 0:
                     D = dict()
                     D['val'] = float(row[-3][:-1].replace(',', '.')) * -1
@@ -277,7 +314,7 @@ class Makro:
                     D['code'] = row[-1]
                     self.factura['descuentos'].append(D)
                 n += 1
-            elif row.startswith('-') and n > 1:
+            elif row.startswith('-') and n >= 1:
                 self.safe_text = self.safe_text[n:]
                 break
 
@@ -317,30 +354,32 @@ def to_txt(txt, factura):
     info.close()
 
 
-def run(files, to_txt=False):
+def run(files, txt=False, verbose=True):
     import os
     dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MAKRO'
     if len(files) == 0:
-        dir += '/test'
+        #dir += '/test'
         files = os.listdir(dir)
     for file in files:
-        pdf = f"{dir.replace('C:/', '///')}/{file}"
-        print(f'Item: {file}')
-        try:
-            M = Makro(pdf)
-            name, factura = M.result()
-            my_print(factura)
-            if to_txt:
-                txt = dir + '/txt/' + file.replace('.pdf', '.txt')
-                to_txt(txt, factura)
-        except PermissionError:
-            pass
+        if '.pdf' in file:
+            pdf = f"{dir.replace('C:/', '///')}/{file}"
+            print(f'Item: {file}')
+            try:
+                M = Makro(pdf)
+                name, factura = M.result()
+                if verbose:
+                    my_print(factura)
+                if txt:
+                    txt = dir + '/txt/' + file.replace('.pdf', '.txt')
+                    to_txt(txt, factura)
+            except PermissionError:
+                pass
 
 
 if __name__ == '__main__':
-    file = ['21-08-21 - MAKRO - 0-0(014)0007-(2021)233062.pdf']
-    #file = list()
-    run(file)
+    #file = ['21-09-28 - MAKRO - 0-0(014)0007-(2021)271052.pdf']
+    file = list()
+    run(file, txt=True, verbose=False)
 
 # __NOTES__ #
 '''

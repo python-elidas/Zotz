@@ -12,7 +12,7 @@ import hashlib as hash
 
 
 # __MAIN CODE__ #
-class Makro:
+class Lidl:
     def __init__(self, file_path):
         # Nos quedamos solo con el nombre del archivo.
         file_name = file_path.split('/')[-1].split('.')[0]
@@ -68,15 +68,15 @@ class Makro:
             if not item.startswith('LIDL'):
                 n += 1
             else:
-                self.safe_text = raw['content'].split('\n\n')[n:]
                 break
+        self.safe_text = raw['content'].split('\n\n')[n:]
 
     def get_date(self):
         month = {
             'Ene' : '01', 'Feb' : '02', 
             'Mar' : '03', 'Abr' : '04',
             'May' : '05', 'Jun' : '06',
-            'Jul' : '07', 'Ag' : '08',
+            'Jul' : '07', 'Ago' : '08',
             'Sep' : '09', 'Oct' : '10',
             'Nov' : '11', 'Dic' : '12',
         }
@@ -199,20 +199,21 @@ def to_txt(txt, factura):
     info.close()
 
 
-def run(files, to_txt=False):
+def run(files, txt=False, verbose=True):
     import os
     dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_LIDL'
     if len(files) == 0:
-        dir += '/test'
+        #dir += '/test'
         files = os.listdir(dir)
     for file in files:
         pdf = f"{dir.replace('C:/', '///')}/{file}"
         print(f'Item: {file}')
         try:
-            M = Makro(pdf)
+            M = Lidl(pdf)
             name, factura = M.result()
-            my_print(factura)
-            if to_txt:
+            if verbose:
+                my_print(factura)
+            if txt:
                 txt = dir + '/txt/' + file.replace('.pdf', '.txt')
                 to_txt(txt, factura)
         except PermissionError:
@@ -220,9 +221,9 @@ def run(files, to_txt=False):
 
 
 if __name__ == '__main__':
-    file = ['21-01-29 - LIDL - 2021401600307.pdf']
-    #file = list()
-    run(file)
+    #file = ['21-01-29 - LIDL - 2021401600307.pdf']
+    file = list()
+    run(file, txt=True, verbose=False)
 
 # __NOTES__ #
 '''

@@ -94,14 +94,14 @@ class Main_Window(Tk):
                         text=f'Archivo {self.bil}')\
                     .grid(row=4, column=0, columnspan=3, sticky=W)
                 Label(self._frame,
-                        text='\tLeyendo Archivo')\
-                    .grid(row=5, column=0, sticky=W)
-                Label(self._frame,
-                        text='\tCreando Hoja')\
+                        text='\tLeyendo Archivo PDF')\
                     .grid(row=6, column=0, sticky=W)
                 Label(self._frame,
-                        text='\tEscribiendo')\
+                        text='\tCreando Hoja Excel')\
                     .grid(row=7, column=0, sticky=W)
+                Label(self._frame,
+                        text='\tEscribiendo Información')\
+                    .grid(row=8, column=0, sticky=W)
                 Excel(excel, pdf, self)
                 self.n += 1
                 self.p_b.step(1)
