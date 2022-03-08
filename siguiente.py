@@ -140,7 +140,7 @@ class Excel:
             n = items.index(item)
             self.op.config(text=f'Escribiendo artículo {n} de {len(items)}')
             # obtenemos la referencia del tipo de producto
-            self.ws[f'A{self.row}'] = self.row - 110  # escribimos el numero de la fila
+            self.ws[f'A{self.row}'] = self.row - 109  # escribimos el numero de la fila
             self.ws[f'B{self.row}'] = item['codigo']  # escribimos la referencia
             self.ws[f'C{self.row}'] = item['desc']  # escribimos la descripción
             self.ws[f'D{self.row}'] = list(db.show_one_row(
@@ -149,7 +149,7 @@ class Excel:
             self.ws[f'F{self.row}'] = item['ud pac']
             self.ws[f'G{self.row}'] = item['precio']
             self.ws[f'H{self.row}'] = item['uds']
-            self.ws[f'I{self.row}'] = item['precio'] * float(item['uds'].replace(',', '.'))
+            self.ws[f'I{self.row}'] = item['precio'] * item['uds']
             self.ws[f'J{self.row}'] = item['iva']
             
             #Insertamos la siguiente fila:
@@ -181,7 +181,7 @@ class Excel:
         if not len(self.bill['descuentos']) == 0:
             for item in self.bill['descuentos']:
                 # insertamos la información
-                self.ws[f'A{self.row}'] = self.row - 61
+                self.ws[f'A{self.row}'] = self.row - 110
                 self.ws[f'B{self.row}'] = item['code']
                 self.ws[f'C{self.row}'] = 'Descuento'
                 self.ws[f'D{self.row}'] = 'MP'  # No siempre
@@ -242,7 +242,7 @@ class Excel:
 
     def overview(self):
         self.ws = self.wb['Resumen']
-        self.row = 60
+        self.row = 112
         bil = '\'' + self.new + '\''
         # buscamos el grupo de celdas con el que trabajar:
         while not str(self.ws[f'B{self.row}'].value).startswith('=Sig'):

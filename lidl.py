@@ -141,7 +141,7 @@ class Lidl:
                     D['ud pac'] = float(1)
                     D['precio'] = float(
                         f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
-                    D['uds'] = row[-6]
+                    D['uds'] = float(row[-6].replace(',','.'))
                     D['iva'] =  iva[row[-3].split(',')[0]]
                     self.factura['articulos'].append(D)
                 if row[-4].startswith('-'):
