@@ -16,7 +16,7 @@ from lidl import Lidl
 from datetime import datetime
 from sel_type import Sel_Type
 import time
-from auxiliares.toolPrint import *
+from auxiliares.toolPrint import dictPrint
 
 # __MAIN CODE__ #
 class Excel:
@@ -28,6 +28,7 @@ class Excel:
         # obtenemos el nombre de la factura y su información
         self.op.config(text='Procesando PDF...')
         self.new, self.bill = self.select_case(pdf).result()
+        #dictPrint(self.bill)
         # damos Información al usuario:
         try:
             a = Label(master._frame, text='OK')

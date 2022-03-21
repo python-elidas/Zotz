@@ -64,7 +64,7 @@ class Main_Window(Tk):
         # Empezamos a mostrar nueva información y creamos la barra de progreso
         Label(self._frame, text='Procesando Archivos...')\
             .grid(row=2, column=0, sticky=W)
-        self.p_b = Progressbar(self._frame, length=500)
+        self.p_b = Progressbar(self._frame, length=500, )
         self.p_b.grid(row=3, columnspan=4)
         
         # Comprobamos que facturas han sido pasadas para no repetir
@@ -81,7 +81,7 @@ class Main_Window(Tk):
         
         # Empezamos a leer y convertir información
         try:
-            self.n, self.m = 0, len(process)
+            self.n, self.m = 1, len(process)
             # Iteramos por todas las facturas
             for self.bil in process:
                 # adecuamos el nombre del archivo

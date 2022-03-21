@@ -9,6 +9,7 @@ Version: 2.0.0
 # __LYBRARIES__ #
 from tika import parser
 from tkinter import messagebox
+from auxiliares.toolPrint import dictPrint
 
 
 # __MAIN CODE__ #
@@ -41,7 +42,6 @@ class Makro:
         # Obtenemos el numero de factura:
         self.get_bill_num()
         for i in range(pages):
-            
             if i >= 1:
                 self.clean()
             # Quitamos mas morralla
@@ -58,8 +58,9 @@ class Makro:
                     self.get_disc()
                 except Exception:
                     self.get_disc_v2()
-            # Obtenemos el total de la factura:
+        # Obtenemos el total de la factura:
         self.get_ammont()
+        
         print(f'File {self.file} readed.')
         
     def print_info(self, raw):
@@ -81,7 +82,6 @@ class Makro:
                 break
         # nos quedamos solo con lo que interesa
         self.safe_text = self.safe_text[n:]
-        #print(self.safe_text)
 
     def get_date(self):
         n = 0
@@ -199,60 +199,61 @@ class Makro:
                 break
 
     def get_items_v2(self):
-            n = 0
+        n = 0
+        if not 'articulos' in self.factura:
             # creamos la lista que almacenará los articulos
             self.factura['articulos'] = list()
             # Creamos la lista de descuentos por si existen descuentos inline
             self.factura['descuentos'] = list()
-            # creamos la lista con los códigos de los descuentos
-            self.desc = list()
-            for row in self.safe_text:
-                D = dict()  # Los articulos se almacenan en forma de diccionario
-                n += 1
-                if not row.startswith('-'):
-                    # eliminamos los carácteres extraños
-                    row = row\
-                        .replace('\\xc2\\xaa', 'a')\
-                        .replace('\\xc2\\xb1', '~')\
-                        .replace('\\xc2\\xb4', ' ')\
-                        .replace('\\xc2\\xba', '.')\
-                        .replace('\\xc3\\x81', 'A')\
-                        .replace('\\xc3\\x89', 'E')\
-                        .replace('\\xc3\\x8d', 'I')\
-                        .replace('\\xc3\\x91', 'N')\
-                        .replace('\\xc3\\x93', 'O')\
-                        .replace('\\xc3\\x9a', 'U')\
-                        .replace('\\xc2\\x9c', 'U')\
-                        .replace('\'', ' ')\
-                    # solo se tienen en cuenta las filas con infromacion relevante
-                    row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
-                    # print(f'{row}')
-                    if len(row) >= 9 and not '-' in str(row[5]):
-                        D['codigo'] = row[0]
-                        D['desc'] = row[1]
-                        D['prec ud'] = float(str(row[3]).replace(',', '.'))
-                        D['ud pac'] = float(str(row[4]).replace(',', '.'))
-                        D['precio'] = float(str(row[5]).replace(',', '.'))
-                        if '-' in str(row[6]):
-                            D['uds'] = int(str(row[6]).replace('-', '')) * -1
-                        else:
-                            D['uds'] = int(row[6])
-                        D['iva'] =int(row[8])
-                        self.factura['articulos'].append(D)
-                        #print(row)
-                        if len(row) > 9 and len(row[9].strip()) > 1:
-                            self.desc.append(row[8:])
-                            #print('v2')
-                    elif len(row) >= 9 and '-' in str(row[5]):
-                        D['code'] = row[0]
-                        D['val'] = float(str(row[5])
-                                                .replace(',', '.')\
-                                                .replace('-', '')) * -1
-                        D['iva'] = int(row[8])
-                        self.factura['descuentos'].append(D)  
-                else:
-                    self.safe_text = self.safe_text[n:]
-                    break
+        # creamos la lista con los códigos de los descuentos
+        self.desc = list()
+        for row in self.safe_text:
+            D = dict()  # Los articulos se almacenan en forma de diccionario
+            n += 1
+            if not row.startswith('-'):
+                # eliminamos los carácteres extraños
+                row = row\
+                    .replace('\\xc2\\xaa', 'a')\
+                    .replace('\\xc2\\xb1', '~')\
+                    .replace('\\xc2\\xb4', ' ')\
+                    .replace('\\xc2\\xba', '.')\
+                    .replace('\\xc3\\x81', 'A')\
+                    .replace('\\xc3\\x89', 'E')\
+                    .replace('\\xc3\\x8d', 'I')\
+                    .replace('\\xc3\\x91', 'N')\
+                    .replace('\\xc3\\x93', 'O')\
+                    .replace('\\xc3\\x9a', 'U')\
+                    .replace('\\xc2\\x9c', 'U')\
+                    .replace('\'', ' ')\
+                # solo se tienen en cuenta las filas con infromacion relevante
+                row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
+                # print(f'{row}')
+                if len(row) >= 9 and not '-' in str(row[5]):
+                    D['codigo'] = row[0]
+                    D['desc'] = row[1]
+                    D['prec ud'] = float(str(row[3]).replace(',', '.'))
+                    D['ud pac'] = float(str(row[4]).replace(',', '.'))
+                    D['precio'] = float(str(row[5]).replace(',', '.'))
+                    if '-' in str(row[6]):
+                        D['uds'] = int(str(row[6]).replace('-', '')) * -1
+                    else:
+                        D['uds'] = int(row[6])
+                    D['iva'] =int(row[8])
+                    self.factura['articulos'].append(D)
+                    #print(row)
+                    if len(row) > 9 and len(row[9].strip()) > 1:
+                        self.desc.append(row[8:])
+                        #print('v2')
+                elif len(row) >= 9 and '-' in str(row[5]):
+                    D['code'] = row[0]
+                    D['val'] = float(str(row[5])
+                                            .replace(',', '.')\
+                                            .replace('-', '')) * -1
+                    D['iva'] = int(row[8])
+                    self.factura['descuentos'].append(D)  
+            else:
+                self.safe_text = self.safe_text[n:]
+                break
             
     def get_disc(self):
         n = 0
@@ -356,7 +357,7 @@ def to_txt(txt, factura):
 
 def run(files, txt=False, verbose=True):
     import os
-    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MAKRO'
+    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MAKRO/test'
     if len(files) == 0:
         #dir += '/test'
         files = os.listdir(dir)
@@ -379,7 +380,7 @@ def run(files, txt=False, verbose=True):
 if __name__ == '__main__':
     #file = ['21-09-28 - MAKRO - 0-0(014)0007-(2021)271052.pdf']
     file = list()
-    run(file, txt=True, verbose=False)
+    run(file, txt=False, verbose=True)
 
 # __NOTES__ #
 '''

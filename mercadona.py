@@ -37,7 +37,7 @@ class Mercadona:
         self.get_bill_num()
         
         for i in range(int(meta[pages])):
-            print(f'[*] vuelta: {i}')
+            #print(f'[*] vuelta: {i}')
             #if i >= 1:
             #    [print(f'row: {i}') for i in self.safe_text]
             # Limpiamos nuevamente:
@@ -68,7 +68,7 @@ class Mercadona:
                 return True
 
     def clean(self, raw):
-        print('[-] clean')
+        # print('[-] clean')
         if '**FACTURA IVA**' in raw:
             n = raw.index('**FACTURA IVA**') + 1
         elif 'DATOS FISCALES' in raw:
@@ -76,14 +76,14 @@ class Mercadona:
         self.safe_text = raw[n:]
 
     def get_date(self):
-        print('[-] get_date')
+        # print('[-] get_date')
         for row in self.safe_text:
             if row.startswith('FECHA') or row.startswith('Fecha'):
                 self.factura['fecha'] = row.split(':')[-1].strip()
                 break
 
     def get_bill_num(self):
-        print('[-] get_bill_num')
+        # print('[-] get_bill_num')
         self.factura['Factura'] = list()
         for row in self.safe_text:
             if row.startswith('NUM. FACTURA') or \
@@ -98,7 +98,7 @@ class Mercadona:
                 break
                 
     def clean2(self):  # Limpiamos las siguientes líneas)
-        print('[-] clean2')
+        # print('[-] clean2')
         n = 0
         for row in self.safe_text:
             if 'LINEA' in row:
@@ -113,10 +113,9 @@ class Mercadona:
                 #print(f'row: {row}; {n}')
                 n += 1
         self.safe_text = self.safe_text[n+1:]
-        #[print(f'[-] clean2: {i}') for i in self.safe_text]
         
     def get_items(self):
-        print('[-] get_items')
+        # print('[-] get_items')
         n = 0
         # creamos in diccionario con los ids de los ivas:
         iva = {'10': 1, '21': 2, '4': 5, '0': 6}
@@ -160,7 +159,6 @@ class Mercadona:
             else:
                 break
         self.safe_text = self.safe_text[n:]
-        #[print(f'[-] get_items: {i}') for i in self.safe_text]
     
     def gen_code(self, string):
         if string.startswith('PARK'):
@@ -170,7 +168,7 @@ class Mercadona:
         return model.hexdigest()[:10]
 
     def get_items_v2(self):
-        print('[-] get_items_v2')
+        # print('[-] get_items_v2')
         n = 0
         # creamos in diccionario con los ids de los ivas:
         iva = {'10': 1, '21': 2, '4': 5, '0': 6}
