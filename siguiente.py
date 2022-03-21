@@ -161,9 +161,9 @@ class Excel:
             # copiamos las formulas pertinentes
             self.ws[f'K{self.row+1}'] = str(self.ws[f'K{self.row}'].value)\
                 .replace(str(self.row), str(self.row+1))
-            self.ws[f'L{self.row+1}'] = self.ws[f'L{self.row}'].value\
+            self.ws[f'L{self.row+1}'] = str(self.ws[f'L{self.row}'].value)\
                 .replace(str(self.row), str(self.row+1))
-            self.ws[f'M{self.row+1}'] = self.ws[f'M{self.row}'].value\
+            self.ws[f'M{self.row+1}'] = str(self.ws[f'M{self.row}'].value)\
                 .replace(str(self.row), str(self.row+1))
             # copaimos los formatos de las celdas
             cols = [
@@ -201,21 +201,21 @@ class Excel:
         # ponemos en orden el desorden
         # print(self.row)
         self.ws[f'F{self.row+2}'].value = str(self.ws[f'F{self.row+2}'].value)\
-            .replace('F102', f'F{self.row-1}')
+            .replace('F110', f'F{self.row-1}')
         self.ws[f'H{self.row+2}'].value = str(self.ws[f'H{self.row+2}'].value)\
-            .replace('H102', f'H{self.row-1}')
+            .replace('H110', f'H{self.row-1}')
         self.ws[f'I{self.row+2}'].value = str(self.ws[f'I{self.row+2}'].value)\
-            .replace('I102', f'I{self.row-1}')
+            .replace('I110', f'I{self.row-1}')
         self.ws[f'L{self.row+2}'].value = str(self.ws[f'L{self.row+2}'].value)\
-            .replace('L102', f'L{self.row-1}')
+            .replace('L110', f'L{self.row-1}')
         self.ws[f'M{self.row+2}'].value = str(self.ws[f'M{self.row+2}'].value)\
-            .replace('M102', f'M{self.row-1}')
+            .replace('M110', f'M{self.row-1}')
         self.row -= 1
         # adecuamos las fórmulas pertinentes la infromacion que tenemos:
         R, r = 19, 8
-        J = [':$I$102', ':$K$102', ':$D$102']
-        L = [':$L$102', ':$K$102', ':$D$102']
-        M = [':$M$102', ':$K$102', ':$D$102']
+        J = [':$I$110', ':$K$110', ':$D$110']
+        L = [':$L$110', ':$K$110', ':$D$110']
+        M = [':$M$110', ':$K$110', ':$D$110']
         while r <= 11: 
             for elem in J:
                 self.ws[f'J{r}'].value = str(self.ws[f'J{r}'].value)\

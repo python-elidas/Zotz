@@ -10,3 +10,63 @@ The text was:
 [+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
 [+]	IndexError: list index out of range
 
+Error at date 11/03/2022 14:30:
+[+] While reading the file: 21-12-16 - Mercadona - A-V2021-00004340365.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 62, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 146, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+
+Error at date 21/03/2022 19:48:
+[+] While reading the file: 21-01-02 - LIDL - 2021401600286.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 62, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 146, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+
+Error at date 21/03/2022 19:52:
+[+] While reading the file: 21-01-04 - LIDL - 2021401600287.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 62, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 146, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+
+Error at date 21/03/2022 19:55:
+[+] While reading the file: 21-01-05 - LIDL - 2021401600285.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 62, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 146, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+
+Error at date 21/03/2022 20:02:
+[+] While reading the file: 21-01-05 - LIDL - 2021401600285.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 62, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 146, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+

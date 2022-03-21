@@ -6,7 +6,7 @@ Date: 2021-08-23
 Version: 1.3.5
 '''
 
-# __LYBRARIES__ #
+# __LIBRARIES__ #
 from tkinter import *
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Progressbar
