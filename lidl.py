@@ -132,7 +132,7 @@ class Lidl:
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
                 row = row.split()
-                if not row[-4].startswith('-'):
+                if not row[-1].startswith('-'):
                     D = dict()
                     code = self.gen_code(' '.join(row[:-6]))
                     D['codigo'] = code
@@ -144,7 +144,7 @@ class Lidl:
                     D['uds'] = float(row[-6].replace(',','.'))
                     D['iva'] =  iva[row[-3].split(',')[0]]
                     self.factura['articulos'].append(D)
-                if row[-4].startswith('-'):
+                if row[-1].startswith('-'):
                     d = dict()
                     d['val'] = float(f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
                     d['iva'] = iva[row[-3].split(',')[0]]
