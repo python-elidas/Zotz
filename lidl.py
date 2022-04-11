@@ -137,7 +137,7 @@ class Lidl:
                     code = self.gen_code(' '.join(row[:-6]))
                     D['codigo'] = code
                     D['desc'] = ' '.join(row[:-6])
-                    D['precio'] = row[-4]
+                    D['precio'] = float(row[-4])
                     D['ud pac'] = float(1)
                     D['prec ud'] = float(
                         f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
