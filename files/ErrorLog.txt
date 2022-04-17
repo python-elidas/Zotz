@@ -35,3 +35,15 @@ The text was:
 [+]   self.prov, 'Codigo', item['codigo']))[0][2]
 [+]	IndexError: list index out of range
 
+Error at date 16/04/2022 00:20:
+[+] While reading the file: 21-12-16 - Mercadona - A-V2021-00004340365.pdf
+[+] The type of the error was: IndexError
+The text was:
+[+] File "C:\Users\osgum\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 63, in __init__
+[+]   self.write_items()
+[+] File "C:\Users\osgum\github\Zotz\siguiente.py", line 147, in write_items
+[+]   self.ws[f'D{self.row}'] = list(db.show_one_row(
+[+]	IndexError: list index out of range
+
