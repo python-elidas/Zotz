@@ -9,7 +9,7 @@ Version: 1.0.0
 # __LYBRARIES__ #
 from tika import parser
 import hashlib as hash
-
+from auxiliares.toolPrint import dictPrint
 
 # __MAIN CODE__ #
 class Lidl:
@@ -24,7 +24,7 @@ class Lidl:
         # __lectura del archivo__ #
         raw = parser.from_file(file_path)  # Ruta completa
         #print(raw.keys())
-        #[print(i) for i in raw['content'].split('\n\n')]
+        #![print(i) for i in raw['content'].split('\n\n')]
         # self.print_info(raw)
         self.clean(raw)
         # creamos el diccionario que devolveremos al final
@@ -50,6 +50,7 @@ class Lidl:
                 except Exception:
                     self.get_disc_v2()
             # Obtenemos el total de la factura:
+            #!print(self.factura)
         self.get_ammont()
         print(f'File {self.file} readed.')
         
@@ -70,6 +71,7 @@ class Lidl:
             else:
                 break
         self.safe_text = raw['content'].split('\n\n')[n:]
+        #![print(f'clean: {row}') for row in self.safe_text]
 
     def get_date(self):
         month = {
@@ -100,6 +102,7 @@ class Lidl:
             else:
                 self.safe_text = self.safe_text[n+1:]
                 break
+        #![print(f'clean2: {row}') for row in self.safe_text]
 
     def get_items(self):
         n = 0
@@ -112,8 +115,8 @@ class Lidl:
             self.factura['descuentos'] = list()
         # creamos la lista con los códigos de los descuentos
         self.desc = list()
+        #![print(f'[$] get_items: {row}') for row in self.safe_text]
         for row in self.safe_text:
-            #print(f'{row}')
             n += 1
             try:
                 # eliminamos los carácteres extraños
@@ -137,22 +140,23 @@ class Lidl:
                     code = self.gen_code(' '.join(row[:-6]))
                     D['codigo'] = code
                     D['desc'] = ' '.join(row[:-6])
-                    D['precio'] = float(row[-4])
+                    D['precio'] = float(row[-4].replace(',','.'))
                     D['ud pac'] = float(1)
                     D['prec ud'] = float(
                         f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
                     D['uds'] = float(row[-6].replace(',','.'))
                     D['iva'] =  iva[row[-3].split(',')[0]]
                     self.factura['articulos'].append(D)
-                if row[-1].startswith('-'):
+                elif row[-1].startswith('-'):
                     d = dict()
                     d['val'] = float(f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
                     d['iva'] = iva[row[-3].split(',')[0]]
                     d['code'] = code
                     self.factura['descuentos'].append(d)
-            except Exception:
+            except Exception as e:
                 self.safe_text = self.safe_text[n-1:]
                 break
+        #!print(self.factura['articulos'])
     
     def gen_code(self, string):
         '''if string.startswith('Desc'):
@@ -203,7 +207,7 @@ def run(files, txt=False, verbose=True):
     import os
     dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_LIDL'
     if len(files) == 0:
-        #dir += '/test'
+        dir += '/test'
         files = os.listdir(dir)
     for file in files:
         pdf = f"{dir.replace('C:/', '///')}/{file}"
@@ -221,9 +225,9 @@ def run(files, txt=False, verbose=True):
 
 
 if __name__ == '__main__':
-    #file = ['21-01-29 - LIDL - 2021401600307.pdf']
-    file = list()
-    run(file, txt=True, verbose=False)
+    file = ['21-12-17 - LIDL - 2022044900335.pdf']
+    #file = list()
+    run(file, txt=False, verbose=True)
 
 # __NOTES__ #
 '''
