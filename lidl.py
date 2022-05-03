@@ -35,8 +35,10 @@ class Lidl:
         self.get_bill_num()
         pages = list(raw['metadata'].keys())[-1]
         for i in range(int(raw['metadata'][pages])):
+            #!print(f'Página {i}')
             # Quitamos mas morralla
             self.clean2()
+            #! [print(row) for row in self.safe_text if i > 0]
             # Obtenemos los articulos:
             try:
                 self.get_items()
@@ -47,11 +49,12 @@ class Lidl:
                 # verificamos la existencia de descuentos 
                 try:
                     self.get_disc()
-                except Exception:
+                except Exception as e:
+                    #print(e)
                     self.get_disc_v2()
-            # Obtenemos el total de la factura:
-            #!print(self.factura)
+        # Obtenemos el total de la factura:
         self.get_ammont()
+        # self.my_print()
         print(f'File {self.file} readed.')
         
     def print_info(self, raw):
@@ -115,8 +118,9 @@ class Lidl:
             self.factura['descuentos'] = list()
         # creamos la lista con los códigos de los descuentos
         self.desc = list()
-        #![print(f'[$] get_items: {row}') for row in self.safe_text]
+        #! [print(f'[$] get_items: {row}') for row in self.safe_text]
         for row in self.safe_text:
+            #!print(row)
             n += 1
             try:
                 # eliminamos los carácteres extraños
@@ -136,9 +140,10 @@ class Lidl:
                 # solo se tienen en cuenta las filas con infromacion relevante
                 row = row.split()
                 if not row[-1].startswith('-'):
+                    #! [print(f'[$] get_items: {row}') for row in self.safe_text]
                     D = dict()
-                    code = self.gen_code(' '.join(row[:-6]))
-                    D['codigo'] = code
+                    self.code = self.gen_code(' '.join(row[:-6]))
+                    D['codigo'] = self.code
                     D['desc'] = ' '.join(row[:-6])
                     D['precio'] = float(row[-4].replace(',','.'))
                     D['ud pac'] = float(1)
@@ -146,14 +151,16 @@ class Lidl:
                         f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
                     D['uds'] = float(row[-6].replace(',','.'))
                     D['iva'] =  iva[row[-3].split(',')[0]]
+                    #print(n)
                     self.factura['articulos'].append(D)
                 elif row[-1].startswith('-'):
                     d = dict()
                     d['val'] = float(f"{row[-1].split(',')[-2][2:]}.{row[-1].split(',')[-1]}")
                     d['iva'] = iva[row[-3].split(',')[0]]
-                    d['code'] = code
+                    d['code'] = self.code
                     self.factura['descuentos'].append(d)
             except Exception as e:
+                #print(e)
                 self.safe_text = self.safe_text[n-1:]
                 break
         #!print(self.factura['articulos'])
@@ -180,53 +187,50 @@ class Lidl:
     def result(self):
         return self.file, self.factura
 
+    def my_print(self):
+        for key in self.factura.keys():
+            print(f'{key}\n')
+            if type(self.factura[key]) is list:
+                for item in self.factura[key]:
+                    print(f'\t{item}')
+            else:
+                print(f'\t{self.factura[key]}')
 
-def my_print(d):
-    for key in d.keys():
-        print(f'{key}\n')
-        if type(d[key]) is list:
-            for item in d[key]:
-                print(f'\t{item}')
-        else:
-            print(f'\t{d[key]}')
-
-
-def to_txt(txt, factura):
-    info = open(txt, 'w')
-    for item in factura:
-        if type(factura[item]) != list:
-            info.write(f'{item} : {factura[item]}\n')
-        else:
-            info.write(f'{item}\n')
-            for articulo in factura[item]:
-                info.write(f'\t{articulo}\n')
-    info.close()
+    def to_txt(self, txt):
+        info = open(txt, 'w')
+        for item in self.factura:
+            if type(self.factura[item]) != list:
+                info.write(f'{item} : {self.factura[item]}\n')
+            else:
+                info.write(f'{item}\n')
+                for articulo in self.factura[item]:
+                    info.write(f'\t{articulo}\n')
+        info.close()
 
 
 def run(files, txt=False, verbose=True):
     import os
-    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_LIDL'
+    dir = 'Tests/LIDL'
     if len(files) == 0:
-        dir += '/test'
         files = os.listdir(dir)
     for file in files:
-        pdf = f"{dir.replace('C:/', '///')}/{file}"
+        pdf = f"{dir}/{file}"
         print(f'Item: {file}')
         try:
             M = Lidl(pdf)
             name, factura = M.result()
             if verbose:
-                my_print(factura)
+                M.my_print()
             if txt:
                 txt = dir + '/txt/' + file.replace('.pdf', '.txt')
-                to_txt(txt, factura)
+                M.to_txt(txt)
         except PermissionError:
             pass
 
 
 if __name__ == '__main__':
-    file = ['21-12-17 - LIDL - 2022044900335.pdf']
-    #file = list()
+    #file = ['21-03-04 - LIDL - 2022401600218.pdf']
+    file = list()
     run(file, txt=False, verbose=True)
 
 # __NOTES__ #
