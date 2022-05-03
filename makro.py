@@ -41,11 +41,11 @@ class Makro:
         self.get_date()
         # Obtenemos el numero de factura:
         self.get_bill_num()
+        # Quitamos mas morralla
+        self.clean2()
         for i in range(pages):
-            if i >= 1:
-                self.clean()
-            # Quitamos mas morralla
-            self.clean2()
+            if i > 0:
+                self.clean3()            
             # Obtenemos los articulos:
             try:
                 self.get_items()
@@ -133,6 +133,14 @@ class Makro:
             if sep == 3:
                 self.safe_text = self.safe_text[n:]
                 break
+    
+    def clean3(self):
+        n = 0
+        for row in self.safe_text:
+            n += 1
+            if row.strip().startswith('Total de'):
+                self.safe_text = self.safe_text[n:]
+                break
 
     def get_items(self):
         n = 0
@@ -146,10 +154,11 @@ class Makro:
         for row in self.safe_text:
             D = dict()  # Los articulos se almacenan en forma de diccionario
             n += 1
-            if not row.startswith('-'):
+            if not row.startswith('-') and not row.startswith('N\\xc3\\xbamero'):
                 # eliminamos los carácteres extraños
                 row = row\
                     .replace('\\xc2\\xaa', 'a')\
+                    .replace('\\xc3\\xba', 'u')\
                     .replace('\\xc2\\xb1', '~')\
                     .replace('\\xc2\\xb4', ' ')\
                     .replace('\\xc2\\xba', '.')\
@@ -210,10 +219,11 @@ class Makro:
         for row in self.safe_text:
             D = dict()  # Los articulos se almacenan en forma de diccionario
             n += 1
-            if not row.startswith('-'):
+            if not row.startswith('-') and not row.startswith('N\\xc3\\xbamero'):
                 # eliminamos los carácteres extraños
                 row = row\
                     .replace('\\xc2\\xaa', 'a')\
+                    .replace('\\xc3\\xba', 'u')\
                     .replace('\\xc2\\xb1', '~')\
                     .replace('\\xc2\\xb4', ' ')\
                     .replace('\\xc2\\xba', '.')\
@@ -227,7 +237,7 @@ class Makro:
                     .replace('\'', ' ')\
                 # solo se tienen en cuenta las filas con infromacion relevante
                 row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
-                # print(f'{row}')
+                print(f'{row}')
                 if len(row) >= 9 and not '-' in str(row[5]):
                     D['codigo'] = row[0]
                     D['desc'] = row[1]
@@ -357,13 +367,13 @@ def to_txt(txt, factura):
 
 def run(files, txt=False, verbose=True):
     import os
-    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MAKRO/test'
+    dir = 'Tests/MAKRO'
     if len(files) == 0:
         #dir += '/test'
         files = os.listdir(dir)
     for file in files:
         if '.pdf' in file:
-            pdf = f"{dir.replace('C:/', '///')}/{file}"
+            pdf = f"{dir}/{file}"
             print(f'Item: {file}')
             try:
                 M = Makro(pdf)
@@ -378,8 +388,8 @@ def run(files, txt=False, verbose=True):
 
 
 if __name__ == '__main__':
-    #file = ['21-09-28 - MAKRO - 0-0(014)0007-(2021)271052.pdf']
-    file = list()
+    file = ['21-12-14 - MAKRO - 0-0(014)0009-(2021)348124.pdf']
+    #file = list()
     run(file, txt=False, verbose=True)
 
 # __NOTES__ #
