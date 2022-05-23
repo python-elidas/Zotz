@@ -88,7 +88,7 @@ class Main_Window(Tk):
                 pdf = dir.replace('C:', '//') + '/' + self.bil
                 # mostramos mas infromacion
                 Label(self._frame,
-                      text=f'{self.n} de {self.m}')\
+                        text=f'{self.n} de {self.m}')\
                     .grid(row=2, column=2)                    
                 Label(self._frame, 
                         text=f'Archivo {self.bil}')\
@@ -242,7 +242,10 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    try:
+        run()
+    except:
+        exit()
 
 # __NOTES__ #
 '''

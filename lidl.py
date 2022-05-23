@@ -96,7 +96,6 @@ class Lidl:
         self.factura['Factura'].append(self.safe_text[3])
         self.factura['Factura'].append(0)
         
-
     def clean2(self):  # Limpiamos las siguientes líneas
         n = 0
         for row in self.safe_text:

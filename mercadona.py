@@ -38,18 +38,16 @@ class Mercadona:
         
         for i in range(int(meta[pages])):
             #print(f'[*] vuelta: {i}')
-            #if i >= 1:
-            #    [print(f'row: {i}') for i in self.safe_text]
             # Limpiamos nuevamente:
             self.clean2()
-            #[print(f'row: {i}') for i in self.safe_text if not len(i) == 1]
+            #[print(f'row: {i}') for i in self.safe_text]
             # Obtenemos los articulos:
             try:
                 self.get_items()
             except Exception:
                 try:
                     self.get_items_v2()
-                except:
+                except Exception as e:
                     break
             
             # si no es devolucion
@@ -127,7 +125,6 @@ class Mercadona:
         # self.factura['descuentos'] = list() # !Nota 2
         # creamos la lista con los códigos de los descuentos
         for row in self.safe_text:
-            # print(f'[*] row: {row}')
             D = dict()  # Los articulos se almacenan en forma de diccionario
             if 'TIPO' not in row and 'Total Factura' not in row and not row == '':
                 n += 1
@@ -152,7 +149,7 @@ class Mercadona:
                 D['desc'] = ' '.join(info[2:-3])
                 D['prec ud'] = float(info[-3].replace(',', '.'))
                 D['ud pac'] = float(1)
-                D['precio'] = float(info[-1].replace(',', '.'))
+                D['precio'] = float(info[-3].replace(',', '.'))
                 D['uds'] = int(info[1])
                 D['iva'] = int(iva[info[-2][:-1]])
                 self.factura['articulos'].append(D)                    
@@ -181,7 +178,7 @@ class Mercadona:
         for row in self.safe_text:
             D = dict()  # Los articulos se almacenan en forma de diccionario
             n += 1
-            if not row.startswith('TOTAL'):
+            if not row.startswith('TOTAL') and not row.startswith('PÁGINA'):
                 # eliminamos los caracteres extraños
                 row = row\
                     .replace('\\xc2\\x9c', 'U')\
@@ -199,12 +196,13 @@ class Mercadona:
                 # solo se tienen en cuenta las filas con información relevante
                 if not len(row) == 0:
                     info = row.split()
+                    #!print(f'[i] row: {row}')
                     #print(f'{info}\nlen: {len(info)}')
                     D['codigo'] = self.gen_code(' '.join(info[:-6]))  #! Nota 1
                     D['desc'] = ' '.join(info[:-6])
                     D['prec ud'] = float(info[-5].replace(',', '.'))
                     D['ud pac'] = float(1)
-                    D['precio'] = float(info[-4].replace(',', '.'))
+                    D['precio'] = float(info[-5].replace(',', '.'))
                     D['uds'] = int(info[-6])
                     D['iva'] = int(iva[info[-3][:-1]])
                     self.factura['articulos'].append(D)                    
@@ -213,7 +211,7 @@ class Mercadona:
                 break
             
     def get_disc(self):
-       pass
+        pass
 
     def get_ammont(self):
         for row in self.safe_text:
@@ -227,55 +225,53 @@ class Mercadona:
         return self.file, self.factura
 
 
-def my_print(d):
-    for key in d.keys():
-        print(f'{key}\n')
-        if type(d[key]) is list:
-            for item in d[key]:
-                print(f'\t{item}')
-        else:
-            print(f'\t{d[key]}')
+    def my_print(self):
+        for key in self.factura.keys():
+            print(f'{key}\n')
+            if type(self.factura[key]) is list:
+                for item in self.factura[key]:
+                    print(f'\t{item}')
+            else:
+                print(f'\t{self.factura[key]}')
 
 
-def to_txt(txt, factura):
-    info = open(txt, 'w')
-    for item in factura:
-        if type(factura[item]) != list:
-            info.write(f'{item} : {factura[item]}\n')
-        else:
-            info.write(f'{item}\n')
-            for articulo in factura[item]:
-                info.write(f'\t{articulo}\n')
-    info.close()
+    def to_txt(self, txt):
+        info = open(txt, 'w')
+        for item in self.factura:
+            if type(self.factura[item]) != list:
+                info.write(f'{item} : {self.factura[item]}\n')
+            else:
+                info.write(f'{item}\n')
+                for articulo in self.factura[item]:
+                    info.write(f'\t{articulo}\n')
+        info.close()
+
 
 
 def run(files, txt=False, verbose=True):
     import os
-    dir = 'C:/Users/osgum/Desktop/Ztotz/Facturas_MERCADONA'
+    dir = 'Tests/MERCADONA'
     if len(files) == 0:
-        #dir += '/test'
         files = os.listdir(dir)
     for file in files:
-        if '.pdf' in file:
-            pdf = f"{dir.replace('C:/', '///')}/{file}"
-            print(f'Item: {file}')
-            try:
-                M = Mercadona(pdf)
-                name, factura = M.result()
-                if verbose:
-                    my_print(factura)
-                if txt:
-                    txt = dir + '/txt/' + file.replace('.pdf', '.txt')
-                    to_txt(txt, factura)
-            except PermissionError:
-                pass
+        pdf = f"{dir}/{file}"
+        print(f'Item: {file}')
+        try:
+            M = Mercadona(pdf)
+            name, factura = M.result()
+            if verbose:
+                M.my_print()
+            if txt:
+                txt = dir + '/txt/' + file.replace('.pdf', '.txt')
+                M.to_txt(txt)
+        except PermissionError:
+            pass
 
 
 if __name__ == '__main__':
-    file = ['21-02-19 - Mercadona - A-V2021-00000469390.pdf',]
-    #file = ['21-12-16 - Mercadona - A-V2021-00004340365.pdf',]
-    #file = list()
-    run(file, txt=True, verbose=True)
+    #file = ['21-07-10 - Mercadona - A-V2021-00002274173.pdf',]
+    file = list()
+    run(file, txt=False, verbose=True)
 
 # __NOTES__ #
 '''

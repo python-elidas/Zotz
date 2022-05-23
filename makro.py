@@ -177,11 +177,11 @@ class Makro:
                     D['codigo'] = ' '.join(row[3:18].split())  #! Nota 1
                     D['desc'] = ' '.join(row[18:52].split())
                     D['prec ud'] = float(' '.join(row[57:70]
-                                                  .replace(',', '.').split()))
+                                                .replace(',', '.').split()))
                     D['ud pac'] = float(' '.join(row[70:80]
-                                                 .replace(',', '.').split()))
+                                                .replace(',', '.').split()))
                     D['precio'] = float(' '.join(row[80:90]
-                                                 .replace(',', '.').split()))
+                                                .replace(',', '.').split()))
                     if '-' in row[90:99]:
                         D['uds'] = int(' '.join(row[90:99].split())\
                             .replace('-', '')) * -1
