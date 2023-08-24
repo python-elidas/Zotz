@@ -11,9 +11,9 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Progressbar
 import openpyxl as xls
-from siguiente import Excel
+from auxiliares.siguiente import Excel
 import threading as th
-from file_manage import *
+from auxiliares.file_manage import *
 
 
 # __MAIN CODE__ #
