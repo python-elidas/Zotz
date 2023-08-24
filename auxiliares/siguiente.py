@@ -12,7 +12,7 @@ import openpyxl as xls
 import simply_sqlite as SQL
 from makro import Makro
 from mercadona import Mercadona
-from lidl import Lidl
+from files.lidl import Lidl
 from datetime import datetime
 from sel_type import Sel_Type
 import time
