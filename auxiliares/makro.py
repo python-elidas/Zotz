@@ -3,13 +3,14 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9
 Date: 2021-08-24
-Version: 2.0.0
+Version: 2.1.0
 '''
 
 # __LYBRARIES__ #
 from tika import parser
 from tkinter import messagebox
-from auxiliares.toolPrint import dictPrint
+from functionals import clean_row
+from toolPrint import dictPrint
 
 
 # __MAIN CODE__ #
@@ -156,21 +157,7 @@ class Makro:
             n += 1
             if not row.startswith('-') and not row.startswith('N\\xc3\\xbamero'):
                 # eliminamos los carácteres extraños
-                row = row\
-                    .replace('\\xc2\\xaa', 'a')\
-                    .replace('\\xc3\\xba', 'u')\
-                    .replace('\\xc2\\xb1', '~')\
-                    .replace('\\xc2\\xb4', ' ')\
-                    .replace('\\xc2\\xba', '.')\
-                    .replace('\\xe2\\x82\\xac', 'E')\
-                    .replace('\\xc3\\x81', 'A')\
-                    .replace('\\xc3\\x89', 'E')\
-                    .replace('\\xc3\\x8d', 'I')\
-                    .replace('\\xc3\\x91', 'N')\
-                    .replace('\\xc3\\x93', 'O')\
-                    .replace('\\xc3\\x9a', 'U')\
-                    .replace('\\xc2\\x9c', 'U')\
-                    .replace('\'', ' ')\
+                row = clean_row(row)
                 # solo se tienen en cuenta las filas con infromacion relevante
                 # print(f'{row}, n = {n}\n')
                 if len(row) > 100 and not '-' in row[80:90]:
@@ -221,20 +208,7 @@ class Makro:
             n += 1
             if not row.startswith('-') and not row.startswith('N\\xc3\\xbamero'):
                 # eliminamos los carácteres extraños
-                row = row\
-                    .replace('\\xc2\\xaa', 'a')\
-                    .replace('\\xc3\\xba', 'u')\
-                    .replace('\\xc2\\xb1', '~')\
-                    .replace('\\xc2\\xb4', ' ')\
-                    .replace('\\xc2\\xba', '.')\
-                    .replace('\\xc3\\x81', 'A')\
-                    .replace('\\xc3\\x89', 'E')\
-                    .replace('\\xc3\\x8d', 'I')\
-                    .replace('\\xc3\\x91', 'N')\
-                    .replace('\\xc3\\x93', 'O')\
-                    .replace('\\xc3\\x9a', 'U')\
-                    .replace('\\xc2\\x9c', 'U')\
-                    .replace('\'', ' ')\
+                row = clean_row(row)
                 # solo se tienen en cuenta las filas con infromacion relevante
                 row = [item.strip() for item in row.split('   ') if not item == '' and not item == 'M']
                 print(f'{row}')
@@ -270,19 +244,7 @@ class Makro:
         if len(self.factura['descuentos']) == 0:
             self.factura['descuentos'] = list()
         for row in self.safe_text:
-            row = row\
-                        .replace('\\xc2\\x9c', 'U')\
-                        .replace('\\xc2\\xaa', 'a')\
-                        .replace('\\xc2\\xb1', '~')\
-                        .replace('\\xc2\\xb4', ' ')\
-                        .replace('\\xc2\\xba', '.')\
-                        .replace('\\xc3\\x81', 'A')\
-                        .replace('\\xc3\\x89', 'E')\
-                        .replace('\\xc3\\x8d', 'I')\
-                        .replace('\\xc3\\x91', 'N')\
-                        .replace('\\xc3\\x93', 'O')\
-                        .replace('\\xc3\\x9a', 'U')\
-                        .replace('\'', ' ')
+            row = clean_row(row)
             #print(self.desc)
             if self.desc and not row.startswith('-'):
                 row = ' '.join(row.split()).split()
@@ -302,19 +264,7 @@ class Makro:
         if len(self.factura['descuentos']) == 0:
             self.factura['descuentos'] = list()
         for row in self.safe_text:
-            row = row\
-                        .replace('\\xc2\\xaa', 'a')\
-                        .replace('\\xc2\\xb1', '~')\
-                        .replace('\\xc2\\xb4', ' ')\
-                        .replace('\\xc2\\xba', '.')\
-                        .replace('\\xc3\\x81', 'A')\
-                        .replace('\\xc3\\x89', 'E')\
-                        .replace('\\xc3\\x8d', 'I')\
-                        .replace('\\xc3\\x91', 'N')\
-                        .replace('\\xc3\\x93', 'O')\
-                        .replace('\\xc3\\x9a', 'U')\
-                        .replace('\\xc2\\x9c', 'U')\
-                        .replace('\'', ' ')
+            row = clean_row(row)
             if self.desc and not row.startswith('-'):
                 row = [i.strip() for i in row.split('   ') if not i == '']
                 #print(row)
@@ -367,7 +317,7 @@ def to_txt(txt, factura):
 
 def run(files, txt=False, verbose=True):
     import os
-    dir = 'Tests/MAKRO'
+    dir = 'files/Extras/2023 - 01-Enero'
     if len(files) == 0:
         #dir += '/test'
         files = os.listdir(dir)
@@ -383,14 +333,14 @@ def run(files, txt=False, verbose=True):
                 if txt:
                     txt = dir + '/txt/' + file.replace('.pdf', '.txt')
                     to_txt(txt, factura)
-            except PermissionError:
+            except PermissionErrorç:
                 pass
 
 
 if __name__ == '__main__':
-    file = ['21-12-14 - MAKRO - 0-0(014)0009-(2021)348124.pdf']
+    file = ['23-01-03 - Mercadona - A-V2023-00000019960.pdf']
     #file = list()
-    run(file, txt=False, verbose=True)
+    run(file, txt=True, verbose=True)
 
 # __NOTES__ #
 '''
