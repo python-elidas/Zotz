@@ -9,8 +9,12 @@ Version: 2.1.0
 # __LYBRARIES__ #
 from tika import parser
 from tkinter import messagebox
-from functionals import clean_row
-from toolPrint import dictPrint
+if __name__ == '__main__':
+    from functionals import clean_row
+    from toolPrint import dictPrint
+else:
+    from auxiliares.functionals import clean_row
+    from auxiliares.toolPrint import dictPrint
 
 
 # __MAIN CODE__ #
@@ -333,7 +337,7 @@ def run(files, txt=False, verbose=True):
                 if txt:
                     txt = dir + '/txt/' + file.replace('.pdf', '.txt')
                     to_txt(txt, factura)
-            except PermissionErrorç:
+            except PermissionError:
                 pass
 
 
