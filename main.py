@@ -3,7 +3,7 @@ Author: Elidas
 Email: pyro.elidas@gmail.com
 Python version: 3.9
 Date: 2021-08-23
-Version: 1.4.0
+Version: 1.5.0
 '''
 
 # __LIBRARIES__ #
@@ -30,7 +30,7 @@ class Main_Window(Tk):
         self._frame.pack(fill=NONE, expand=1)
 
         self.title('Contabilidad Zotz')
-        self.iconbitmap('files/logo.ico')
+        self.iconbitmap('files/icon/logo.ico')
         self.geometry('600x250')
         self.resizable(FALSE, FALSE)
         
@@ -242,10 +242,7 @@ def run():
 
 
 if __name__ == '__main__':
-    try:
-        run()
-    except:
-        exit()
+    run()
 
 # __NOTES__ #
 '''
