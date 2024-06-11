@@ -1,16 +1,17 @@
 # Zotz
 
-Descripción:`</br>`
+## Descripción
+
     Se trata de un grupo de funciones desarrolladas para extraer y copiar la información relevante de un fichero pdf a un Excel.
 
-Caracteristicas:`<br/>`
+## Requisitos técnicos
 
 * Es necesario emplear el fichero Excel proporcionado ya que ha sido modificado (lo mínimo e imprescindible) para adecuarse a las funcionalidades solicitadas y a las funciones creadas para cubrir estas últimas.
-* El nombre de los archivos deberá respetar el siguiente esquema: YY/MM/DD - Proveedor - referencia.`</br>`
+* El nombre de los archivos deberá respetar el siguiente esquema: YY/MM/DD - Proveedor - referencia.
   Si se pretende cambiar el formato, será necesario contactar con el desarrollador.
-* Desde la versión 1.3.5 No se necesita especificar el fichero Excel a emplear.`</br>`En su lugar será necesario especufucar cuando el programa lo solicite o lo permita la carpeta en la que se guardará el excel.
+* Desde la versión 1.3.5 No se necesita especificar el fichero Excel a emplear. En su lugar será necesario especufucar cuando el programa lo solicite o lo permita la carpeta en la que se guardará el excel.
 
-Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un cierto criterio:
+## Procedimiento ante cambios en Excel:
 
 * Consulta con el desarrollador.
 * Si se van a cambiar los identificadores de los tipos de gasto habrá de hacerse
@@ -19,13 +20,20 @@ Si se van a realizar cambios en el Excel, habrá que hacerlos siguiendo un ciert
 * Si se van a añadir nuevos elementos de ID de gastos, se han de añadir a continuación de la
   tabla original y sin dejar espacios.
 
-Actualizaciones pendientes:`<br/>`
+## Actualizaciones pendientes:
 
-* 1.1.0 Error al cerrar la version ejecutable (Hecho)
-* 1.2.0 Error Handling (hecho para lectura)
-* 1.3.0 Actualización para facturas de Merkadona (Hecho)
-* 1.3.5 Creaccion de archivos excel automatica (Hecho)
-* 1.4.0 Actualización para facturas de Lidl
-* 2.0.0 Actualización para lanzar varios procesos seguidos
-* 2.1.0 Manejo de la BBDD
-* 2.2.0 Actualización de las referencias de una tabla
+### Version 1.x.x
+
+* **1.1.x** Error al cerrar la version ejecutable (Hecho)
+* **1.2.x** Error Handling (hecho para lectura)
+* **1.3.xa** Actualización para facturas de Merkadona (Hecho)
+* **1.3.xb** Creaccion de archivos excel automatica (Hecho)
+* **1.4.x** Actualización para facturas de Lidl (hecho)
+
+### Versión 2.x.x
+
+* **2.0.xa** Cambio de paquete de lectura de PDF
+* **2.0.xb** Encriptado de BBDD
+* **2.1.x** Actualización para lanzar varios procesos simultaneos
+* **2.2.x** Manejo de la BBDD
+* **2.3.x** Actualización de las referencias de una tabla
