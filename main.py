@@ -76,7 +76,7 @@ class Main_Window(Tk):
             if '.pdf' in bil and not nme in self._frame.ws_nms:
                 process.append(bil)
                 
-        # Establecemos el maximo de la barra de progreso
+        # Establecemos el máximo de la barra de progreso
         self.p_b.config(maximum=len(process))
         
         # Empezamos a leer y convertir información
@@ -86,7 +86,7 @@ class Main_Window(Tk):
             for self.bil in process:
                 # adecuamos el nombre del archivo
                 pdf = dir.replace('C:', '//') + '/' + self.bil
-                # mostramos mas infromacion
+                # mostramos mas información
                 Label(self._frame,
                         text=f'{self.n} de {self.m}')\
                     .grid(row=2, column=2)                    
@@ -109,7 +109,7 @@ class Main_Window(Tk):
             # Una vez finalizado, avisamos.
             messagebox.showinfo(
                 message="El archivo Excel ha sido actualizado.\n reinicie el programa para procesar mas archivos.",
-                title="Porceso completado.")
+                title="Proceso completado.")
             self._frame.exe.config(text='Apagar', command=self.out)
         # si esta el excel abierto
         except PermissionError:

@@ -18,32 +18,45 @@ else:
 
 
 # __MAIN CODE__ #
-class PDF:
-    def __init__(self, file='C:/Users/Elidas/github/Zotz/files/Extras/2022/LIDL/22-01-03 - LIDL - 2022044900182.pdf'):
+class MAKRO:
+    def __init__(self, file='C:/Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'):
         __reader = PdfReader(file)
         self.__pages = __reader.pages
         self.__get_text_as_list()
+        self.__clean_info()
 
     def __get_text_as_list(self):
-        self.__info = [page.extract_text().split('\n')
-                       for page in self.__pages]
+        self.__info = [page.extract_text().split('\n') for page in self.__pages]
         
+    def __clean_info(self):
+        clean = list()
+        for page in self.__info:
+            for row in page:
+                clean_row = list()
+                for item in row.split(' '):
+                    if len(item) > 1:
+                        clean_row.append(item)
+                clean.append('\t'.join(clean_row))
+        self.__info = clean
+
+    def __get_bill_date(self):
+        
+    
     def get_bill_numer(self):
         pass
 
-    def print_pages(self):
-        print([page.extract_text() for page in self.__pages])
-
     def print_info(self):
-        [print(row) for page in self.__info for row in page]
-
+        with open('makro_info.txt', 'w') as fw:
+            for row in self.__info:
+                    fw.write(row + '\n')
+                            
 
 
 # __Main Run__#
 if __name__ == '__main__':
-    item = PDF()
-    item.print_pages()
-    # item.print_info()
+    item = MAKRO()
+    #item.print_pages()
+    item.print_info()
 
 # __NOTES__ #
 '''
