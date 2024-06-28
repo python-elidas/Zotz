@@ -40,7 +40,7 @@ class MAKRO:
         self.__info = clean
 
     def __get_bill_date(self):
-        
+        pass
     
     def get_bill_numer(self):
         pass
