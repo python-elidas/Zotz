@@ -43,7 +43,9 @@ class MAKRO:
         pass
     
     def get_bill_numer(self):
-        pass
+        for row in self.__info:
+            if 'Factura' in row:
+                self.__bill = row.split('\t')[1:]
 
     def print_info(self):
         with open('makro_info.txt', 'w') as fw:
