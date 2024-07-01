@@ -94,8 +94,8 @@ class Excel:
     def select_case(self, pdf):
         case = {
             'MAKRO'     : Makro,
-            'MERCADONA' : Mercadona,
-            'LIDL'      : Lidl
+            #'MERCADONA' : Mercadona,
+            #'LIDL'      : Lidl
         }
         self.prov = pdf.split('/')[-1].split(' - ')[1].upper()
         # print(self.prov)
