@@ -19,11 +19,14 @@ else:
 
 # __MAIN CODE__ #
 class Makro:
-    def __init__(self, file='C:/Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'):
-        __reader = PdfReader(file)
+    def __init__(self, file_path='C:/Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'):
+        __reader = PdfReader(file_path)
+        # Obtenemos el nombre de la factura para plasmarlo en el Excel
+        self.__file_name = file_path.split('/')[-1].split('.')[0].split(' - ')[-1]
         self.__pages = __reader.pages
         self.__get_text_as_list()
         self.__clean_info()
+        self.__get_bill_number()
 
     def __get_text_as_list(self):
         self.__info = [page.extract_text().split('\n') for page in self.__pages]
@@ -42,10 +45,10 @@ class Makro:
     def __get_bill_date(self):
         pass
     
-    def get_bill_numer(self):
+    def __get_bill_number(self):
         for row in self.__info:
             if 'Factura' in row:
-                self.__bill = row.split('\t')[1:]
+                pass
 
     def print_info(self):
         with open('makro_info.txt', 'w') as fw:
@@ -58,7 +61,7 @@ class Makro:
 if __name__ == '__main__':
     item = Makro()
     #item.print_pages()
-    item.print_info()
+    #item.print_info()
 
 # __NOTES__ #
 '''
