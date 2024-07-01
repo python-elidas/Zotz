@@ -7,15 +7,15 @@ Version: 1.3.5
 '''
 
 # __LYBRARIES__ #
-from tkinter import *
+import time
 import openpyxl as xls
 import simply_sqlite as SQL
+from tkinter import *
 from auxiliares.makro_v2 import Makro
-from auxiliares.lidl import Lidl
-from auxiliares.mercadona import Mercadona
+#from auxiliares.lidl import Lidl
+#from auxiliares.mercadona import Mercadona
 from datetime import datetime
 from auxiliares.sel_type import Sel_Type
-import time
 from auxiliares.toolPrint import dictPrint
 
 # __MAIN CODE__ #
