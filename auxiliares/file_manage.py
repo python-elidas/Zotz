@@ -12,7 +12,7 @@ import shutil
 from tkinter import messagebox
 
 # __MAIN CODE__ #
-def get_xcl_name(f_dir):
+def get_xcl_name(f_dir): #Obtenemos el nombre del proveedor
     for dir in file.listdir(f_dir):
         if 'pdf' in dir.split('.')[-1]:
             Y = '20' + dir.split(' - ')[0].split('-')[0]

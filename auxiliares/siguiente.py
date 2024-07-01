@@ -10,7 +10,7 @@ Version: 1.3.5
 from tkinter import *
 import openpyxl as xls
 import simply_sqlite as SQL
-from auxiliares.makro import Makro
+from auxiliares.makro_v2 import Makro
 from auxiliares.lidl import Lidl
 from auxiliares.mercadona import Mercadona
 from datetime import datetime

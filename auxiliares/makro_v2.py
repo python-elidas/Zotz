@@ -18,7 +18,7 @@ else:
 
 
 # __MAIN CODE__ #
-class MAKRO:
+class Makro:
     def __init__(self, file='C:/Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'):
         __reader = PdfReader(file)
         self.__pages = __reader.pages
@@ -56,7 +56,7 @@ class MAKRO:
 
 # __Main Run__#
 if __name__ == '__main__':
-    item = MAKRO()
+    item = Makro()
     #item.print_pages()
     item.print_info()
 

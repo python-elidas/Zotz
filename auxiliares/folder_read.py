@@ -8,7 +8,7 @@ Version: 1.0.0
 
 # __LYBRARIES__ #
 import os as file
-from makro import Makro
+from makro_v2 import Makro
 
 # __MAIN CODE__ #
 dir = 'C:/Users/osgum/Desktop/Zotz/Facturas_MAKRO'
