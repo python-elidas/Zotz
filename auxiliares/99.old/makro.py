@@ -7,7 +7,7 @@ Version: 2.1.0
 '''
 
 # __LYBRARIES__ #
-from tika import parser
+#from tika import parser
 from tkinter import messagebox
 if __name__ == '__main__':
     from functionals import clean_row
