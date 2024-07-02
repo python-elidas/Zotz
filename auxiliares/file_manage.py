@@ -35,7 +35,7 @@ def create_new_excl(xcl_dir, f_dir):
         title='Excel no encontrado.',
         message=f'Se creará un excel con el nombre {nme}\nen la carpeta seleccionada.'
     )
-    src = f'{file.getcwd()}\\files\\{nme.split(" ")[1]}.xlsx'
+    src = f'{file.getcwd()}\\files\\Templates\\{nme.split(" ")[1]}.xlsx'
     dst = f'{xcl_dir}\\{nme}.xlsx'
     shutil.copy2(src, dst)
     return nme

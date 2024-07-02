@@ -8,6 +8,7 @@ Version: 2.1.0
 
 # __LYBRARIES__ #
 #from tika import parser
+from pypdf import PdfReader
 from tkinter import messagebox
 if __name__ == '__main__':
     from functionals import clean_row
@@ -160,7 +161,7 @@ class Makro:
             D = dict()  # Los articulos se almacenan en forma de diccionario
             n += 1
             if not row.startswith('-') and not row.startswith('N\\xc3\\xbamero'):
-                # eliminamos los carácteres extraños
+                # eliminamos los caracteres extraños
                 row = clean_row(row)
                 # solo se tienen en cuenta las filas con infromacion relevante
                 # print(f'{row}, n = {n}\n')
@@ -349,8 +350,8 @@ if __name__ == '__main__':
 # __NOTES__ #
 '''
 Nota 1:
-    la esatructura ' '.join(string.split()) ha sido hallada en stackoverflow
-    (como no) y su funcion viene a ser la de eliminar los espacios en blanco
+    la estructura ' '.join(string.split()) ha sido hallada en stackoverflow
+    (como no) y su función viene a ser la de eliminar los espacios en blanco
     innecesarios en la cadena que se ponga como 'string'
 '''
 # __BIBLIOGRAPHY__ #

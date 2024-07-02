@@ -51,13 +51,14 @@ class Main_Window(Tk):
         
         # Obtenemos la información del campo y deshabilitamos el campo y botón
         dir = self._frame.folder.get()
+        #!print(dir)
         self._frame.folder['state'] = 'disabled'
         self._frame.f_b['state'] = 'disabled'
         
         # Obtenemos la información del campo y deshabilitamos el campo y botón
         bills = file.listdir(dir)
         excel = f'{self._frame.excel.get()}/{get_xcl_name(dir)}.xlsx'
-        print(excel)
+        #!print(excel)
         self._frame.excel['state'] = 'disabled'
         self._frame.f_e['state'] = 'disabled'
         
@@ -85,7 +86,7 @@ class Main_Window(Tk):
             # Iteramos por todas las facturas
             for self.bil in process:
                 # adecuamos el nombre del archivo
-                pdf = dir.replace('C:', '//') + '/' + self.bil
+                pdf = file.path.join(dir, self.bil)
                 # mostramos mas información
                 Label(self._frame,
                         text=f'{self.n} de {self.m}')\

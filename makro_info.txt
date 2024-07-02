@@ -3,88 +3,88 @@
 
 
 
-MAKRO	AUTOSERVICIO	MAYORISTA,	S.A.	BILBAO	Página:
-PASEO	IMPERIAL	40	CTRA.	FORAL	BI-1035	LUTXANA	Fecha	de	venta:	10/01/2022	10:36
-28005	MADRID	LUTXANA	ASUA,	36	Fecha	impresión:	10/01/2022	10:39
-48950	ERANDIO	(VIZCAYA)	Fecha	de	entrega:	10/01/2022	10:36
-Telf.:	944711424	Fax:	944532577
-NIF:	A-28/647451
-Reg.	Merc.	de	Madrid,	T.	3.669	L.	O.	F.	86,	Secc.	8.ª	H.	M-61.688
-Factura	0/0(014)0010/(2022)010015	(010-422944)	014/169	2226
+MAKRO AUTOSERVICIO MAYORISTA, S.A. BILBAO Página: 1
+PASEO IMPERIAL 40 CTRA. FORAL BI-1035 LUTXANA Fecha de venta: 10/01/2022 10:36
+28005 MADRID LUTXANA - ASUA, 36 Fecha impresión: 10/01/2022 10:39
+48950 ERANDIO (VIZCAYA) Fecha de entrega: 10/01/2022 10:36
+Telf.: 944711424 Fax: 944532577
+NIF: A-28/647451
+Reg. Merc. de Madrid, T. 3.669 L. O. F. 86, Secc. 8.ª H. M-61.688
+Factura 0/0(014)0010/(2022)010015 (010-422944) 014/169 2226
 --------------------------------------------------------------------------------------------------------------------------------------
-Zotz	Catering	Bilbao	SL	N.cliente:	14	102098	SC
-CM	Berrizbidea	E1	DI	E1	DI	N.I.F.:	B95909719
-ESP	48014	Bilbao	910
+Zotz Catering Bilbao SL N.cliente: 14 102098 1 3 SC
+CM Berrizbidea 8 E1 DI E1 DI N.I.F.: B95909719
+ESP 48014 Bilbao 910
 --------------------------------------------------------------------------------------------------------------------------------------
-MM	Num.	artículo	Descrip.	artículo	Cont	Prec.	Ud.	Cont	P.	Precio	Cant.	Importe	Imp	Prec.Ud.*	DT	AOO	RCD
+MM Num. artículo Descrip. artículo Cont Prec. Ud. Cont P. Precio Cant. Importe Imp Prec.Ud.* DT AOO RCD
 --------------------------------------------------------------------------------------------------------------------------------------
-8414892317917	MONO	ROLLO	MULTI	PREM	DEC	MPRO	BL	2,690	2,69	5,38
-8414892360470	SALMON	AHUM	NORG	MC	250G	BJ	7,250	7,25	7,25
-8424289000018	LOMO	SALMON	NATURE	250G	BALINE	CJ	8,990	8,99	8,99
-8411455010544	SASHIMI	SALMON	AHUM	70G	SKANDI	BJ	3,450	3,45	3,45
-8411553210082	MOJAMA	ATUN	LON	A/OLI	80G	ANGO	BJ	3,950	3,95	3,95
-8414892322430	CROQUETA	COCTEL	JAMON	MPM	1KG	BL	7,600	7,60	15,20
-8414892314794	PATATA	PRECOC.	BRAVA	MC	BL2KG	BL	2,950	2,95	5,90
-8436565962590	HOJA	NORI	BL	125G	(50	UNID)	BL	16,250	16,25	16,25
-8414892314817	PATATA	PRECOC.	GUISAR	MC	BL2KG	BL	2,950	2,95	5,90
-8414892314862	PATATA	PRECOC.	TORTILLA	MC	BL2	BL	2,950	2,95	14,75
-8413548732463	ATUN	AC/GI	NOLY	BL	950GNE	BL	5,390	5,39	10,78
-8427162100041	GILDAS	C/AN	ZUBELZU	40UN	F.788	FR	22,990	22,99	22,99
-8410714107483	AZUCAR	MNO	AZUCARERA	800G	BK	1,590	1,59	1,59
-4337182080312	ARROZ	SUSHI	MC	1KG	BL	1,790	1,79	1,79
-8722700148890	MAYONESA	HELLMANN'S	2L	BD	6,750	6,75	6,75
-8715035110106	SSA	SOJA	KIKKOMAN	150ML	BT	3,650	3,65	3,65
-8414892356244	SIROPE	MC	1KG	VAINILLA	BT	2,950	2,95	2,95
-38410707130383	NECTAR	JUVER	BT	20CL	ACE	BT	0,370	24	8,89	17,78
-4337182070375	ENVASE	C-T	MPRO	250CC	50U	RT	3,890	3,89	7,78
-4337182070450	ENVASE	C-T	500CC	MPRO	25UD	RT	2,990	2,99	5,98
-4337182070498	ENVASE	C-T	750CC	MPRO	25UD	RT	3,990	3,99	7,98
-8411777911857	CUBETA	C/TAPA	14L	CJ	5,990	5,99	5,99
-4894665611987	BOLI	GEL	NGRX10	0.7MM	ARO	UD	2,950	2,95	2,95
-4337182014164	PAPEL	ARO	A4	80GR	5X500H	CJ	3,150	15,75	15,75
+8414892317917 MONO ROLLO MULTI PREM DEC MPRO BL 2,690 1 2,69 2 5,38 2
+8414892360470 SALMON AHUM NORG MC 250G BJ 7,250 1 7,25 1 7,25 1 P
+8424289000018 LOMO SALMON NATURE 250G BALINE CJ 8,990 1 8,99 1 8,99 1
+8411455010544 SASHIMI SALMON AHUM 70G SKANDI BJ 3,450 1 3,45 1 3,45 1
+8411553210082 MOJAMA ATUN LON A/OLI 80G ANGO BJ 3,950 1 3,95 1 3,95 1
+8414892322430 CROQUETA COCTEL JAMON MPM 1KG BL 7,600 1 7,60 2 15,20 1
+8414892314794 PATATA PRECOC. BRAVA MC BL2KG BL 2,950 1 2,95 2 5,90 1 P
+8436565962590 HOJA NORI BL 125G (50 UNID) BL 16,250 1 16,25 1 16,25 1
+8414892314817 PATATA PRECOC. GUISAR MC BL2KG BL 2,950 1 2,95 2 5,90 1 P
+8414892314862 PATATA PRECOC. TORTILLA MC BL2 BL 2,950 1 2,95 5 14,75 1 P
+8413548732463 ATUN AC/GI NOLY BL 950GNE BL 5,390 1 5,39 2 10,78 1
+8427162100041 GILDAS C/AN ZUBELZU 40UN F.788 FR 22,990 1 22,99 1 22,99 1
+8410714107483 AZUCAR MNO AZUCARERA 800G BK 1,590 1 1,59 1 1,59 1
+4337182080312 ARROZ SUSHI MC 1KG BL 1,790 1 1,79 1 1,79 5
+8722700148890 MAYONESA HELLMANN'S 2L BD 6,750 1 6,75 1 6,75 1
+8715035110106 SSA SOJA KIKKOMAN 150ML BT 3,650 1 3,65 1 3,65 1
+8414892356244 SIROPE MC 1KG VAINILLA BT 2,950 1 2,95 1 2,95 1
+38410707130383 NECTAR JUVER BT 20CL ACE BT 0,370 24 8,89 2 17,78 2
+4337182070375 ENVASE C-T MPRO 250CC 50U RT 3,890 1 3,89 2 7,78 2
+4337182070450 ENVASE C-T 500CC MPRO 25UD RT 2,990 1 2,99 2 5,98 2
+4337182070498 ENVASE C-T 750CC MPRO 25UD RT 3,990 1 3,99 2 7,98 2 P
+8411777911857 CUBETA C/TAPA 14L CJ 5,990 1 5,99 1 5,99 2
+4894665611987 BOLI GEL NGRX10 0.7MM ARO UD 2,950 1 2,95 1 2,95 2
+4337182014164 PAPEL ARO A4 80GR 5X500H CJ 3,150 5 15,75 1 15,75 2
 --------------------------------------------------------------------------------------------------------------------------------------
-Número	de	bultos:	37	Peso	Total:	0,000	KG	Envases:	Importe	201,73
-Mercancía	IMP	Total	Imp.
-130,35	1=	10,00%	13,04
-69,59	2=	21,00%	14,61
-1,79	5=	4,00%	0,07
+Número de bultos: 37 Peso Total: 0,000 KG Envases: 0 Importe 201,73
+Mercancía % IMP Total Imp.
+130,35 1= 10,00% 13,04
+69,59 2= 21,00% 14,61
+1,79 5= 4,00% 0,07
 -------------------------------
-201,73	27,72
-Total	pagar	229,45
+201,73 27,72
+Total a pagar 229,45
 --------------------------------------------------------------------------------------------------------------------------------------
-C:	0014	************5300	OP:	845	964880	CAIXABANK	DEBITO	CONSUMO	Tarjeta	229,45
-El	cliente	tiene	un	plazo	de	devolución	de	15	días	desde	la	fecha	de	la	factura	siendo	imprescindible	que	el	articulo	no	haya	sido
-usado	que	cumplan	los	restantes	requisitos	señalados	en	la	recepcion	de	clientes	de	todos	nuestros	establecimientos,
-.y	sin	perjuicios	de	los	derechos	establecidos	por	la	normativa	de	garantias.
-sin	perjuicio	de	los	derechos	establecidos	por	la	normativa	de	garantias.
-"En	el	precio	de	los	aparatos	eléctricos/electrónicos	está	repercutido	el	coste	de	gestión	medioambiental	según	R.D.208/2005"
-En	cumplimiento	de	los	requisitos	establecidos	en	el	Reglamento	REACH,	tienen	su	disposición	la	información	datos	de	seguridad
-de	los	productos	quimicos	en:	www.makro.es/FDS.
-El	cliente	tiene	un	plazo	de	devoluciones	de	15	días	desde	la	fecha	de	factura,siendo	imprescindible	presentar	la	factura	original,
-***	Duplicado	***	Duplicado	***	Duplicado	***
+C: 0014 ************5300 / OP: 845 964880 CAIXABANK DEBITO CONSUMO Tarjeta 229,45
+El cliente tiene un plazo de devolución de 15 días desde la fecha de la factura siendo imprescindible que el articulo no haya sido
+usado y que cumplan los restantes requisitos señalados en la recepcion de clientes de todos nuestros establecimientos,
+.y sin perjuicios de los derechos establecidos por la normativa de garantias.
+y sin perjuicio de los derechos establecidos por la normativa de garantias.
+"En el precio de los aparatos eléctricos/electrónicos está repercutido el coste de gestión medioambiental según R.D.208/2005"
+En cumplimiento de los requisitos establecidos en el Reglamento REACH, tienen a su disposición la información y datos de seguridad
+de los productos quimicos en: www.makro.es/FDS.
+El cliente tiene un plazo de devoluciones de 15 días desde la fecha de factura,siendo imprescindible presentar la factura original,
+*** Duplicado *** Duplicado *** Duplicado ***
 
 
 
 
 
-MAKRO	AUTOSERVICIO	MAYORISTA,	S.A.	BILBAO	Página:
-PASEO	IMPERIAL	40	CTRA.	FORAL	BI-1035	LUTXANA	Fecha	de	venta:	10/01/2022	10:36
-28005	MADRID	LUTXANA	ASUA,	36	Fecha	impresión:	10/01/2022	10:39
-Factura	0/0(014)0010/(2022)010015	(010-422944)	014/169	2226
+MAKRO AUTOSERVICIO MAYORISTA, S.A. BILBAO Página: 2
+PASEO IMPERIAL 40 CTRA. FORAL BI-1035 LUTXANA Fecha de venta: 10/01/2022 10:36
+28005 MADRID LUTXANA - ASUA, 36 Fecha impresión: 10/01/2022 10:39
+Factura 0/0(014)0010/(2022)010015 (010-422944) 014/169 2226
 --------------------------------------------------------------------------------------------------------------------------------------
-Zotz	Catering	Bilbao	SL	N.cliente:	14	102098	SC
+Zotz Catering Bilbao SL N.cliente: 14 102098 1 3 SC
 --------------------------------------------------------------------------------------------------------------------------------------
-que	el	aticulo	esté	sin	usar	con	todos	sus	accesorios	que	venga	en	su	embalaje	original	en	perfecto	estado.	En	caso	de	articulos
-de	confección	deberán	venir	con	la	etiqueta	de	producto.	En	los	Productos	tecnológicos,	las	devoluciones	se	tramitarán	través	de
-los	servicios	técnicos	oficiales	para	la	comprobación	del	uso	del	artículo	siguiendo	los	proceimientos	establecidos	al	efecto.
-No	se	admiten	devoluciones	de	libros,colchones,almohadas,programas	informáticos,	articulos	de	alimentación	bebidas,	droguería,
-combustibles,	ni	articulos	de	venta	por	encargo	fuera	del	surtido.
-"Sin	perjuicio	de	los	derechos	de	garantía	reconociidos	en	la	ley.
-Precio	unitario	aplicado	descuento	correspondiente.	Carácter	informativo.
-***************	Fin	de	factura	**************
-OPERACIÓN	Venta	TARJ.	CAIXABANK	DEBITO	CONSUMO	ENT.	AUT	CGP	Verifacion	titular
-HORA:	10:39:36	10/01/2022	NUM	TARJ.	************5300	Id	Terminal	00000000001	AID	Applicación	A0000000031010
-IMPORTE	229,45	EUR	NUM	AUT.	964880	Modo	Autoricazión	ON	Etiqueta	aplicación	Visa	CaixaBank
-Codigo	FUC	041227257	DF	Name	Introduccion	datos	ARC	3030
-Operación	con	PIN.	Firma	no	necesaria.
-***	Duplicado	***	Duplicado	***	Duplicado	***
+que el aticulo esté sin usar y con todos sus accesorios y que venga en su embalaje original en perfecto estado. En caso de articulos
+de confección deberán venir con la etiqueta de producto. En los Productos tecnológicos, las devoluciones se tramitarán a través de
+los servicios técnicos oficiales para la comprobación del uso del artículo siguiendo los proceimientos establecidos al efecto.
+No se admiten devoluciones de libros,colchones,almohadas,programas informáticos, articulos de alimentación y bebidas, droguería,
+combustibles, ni articulos de venta por encargo o fuera del surtido.
+"Sin perjuicio de los derechos de garantía reconociidos en la ley.
+* Precio unitario aplicado descuento correspondiente. Carácter informativo.
+*************** Fin de factura **************
+OPERACIÓN : Venta TARJ. : CAIXABANK DEBITO CONSUMO ENT. AUT : CGP Verifacion titular : P
+HORA: 10:39:36 10/01/2022 NUM TARJ. : ************5300 Id Terminal : 00000000001 AID Applicación : A0000000031010
+IMPORTE : 229,45 EUR NUM AUT. : 964880 Modo Autoricazión : ON Etiqueta aplicación : Visa CaixaBank
+Codigo FUC : 041227257 DF Name : Introduccion datos : C ARC : 3030
+Operación con PIN. Firma no necesaria.
+*** Duplicado *** Duplicado *** Duplicado ***

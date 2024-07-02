@@ -27,7 +27,7 @@ class Excel:
         self.today = datetime.now().strftime('%x')
         # obtenemos el nombre de la factura y su información
         self.op.config(text='Procesando PDF...')
-        self.new, self.bill = self.select_case(pdf).result()
+        self.new, self.bill = self.select_case(pdf).get_resultados()
         #dictPrint(self.bill)
         # damos Información al usuario:
         try:

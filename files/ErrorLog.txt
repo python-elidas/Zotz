@@ -1,0 +1,90 @@
+Error at date 02/07/2024 19:19:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: FileNotFoundError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 30, in __init__
+[+]   self.new, self.bill = self.select_case(pdf).result()
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 103, in select_case
+[+]   return case[self.prov](pdf)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\makro_v2.py", line 21, in __init__
+[+]   __reader = PdfReader(file_path)
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\pypdf\_reader.py", line 125, in __init__
+[+]   with open(stream, "rb") as fh:
+[+]	FileNotFoundError: [Errno 2] No such file or directory: '///Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'
+
+Error at date 02/07/2024 19:23:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: FileNotFoundError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 30, in __init__
+[+]   self.new, self.bill = self.select_case(pdf).result()
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 103, in select_case
+[+]   return case[self.prov](pdf)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\makro_v2.py", line 21, in __init__
+[+]   __reader = PdfReader(file_path)
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\pypdf\_reader.py", line 125, in __init__
+[+]   with open(stream, "rb") as fh:
+[+]	FileNotFoundError: [Errno 2] No such file or directory: '///Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'
+
+Error at date 02/07/2024 19:28:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: FileNotFoundError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 30, in __init__
+[+]   self.new, self.bill = self.select_case(pdf).result()
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 103, in select_case
+[+]   return case[self.prov](pdf)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\makro_v2.py", line 22, in __init__
+[+]   __reader = PdfReader(file_path)
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\pypdf\_reader.py", line 125, in __init__
+[+]   with open(stream, "rb") as fh:
+[+]	FileNotFoundError: [Errno 2] No such file or directory: '///Users/Elidas/github/Zotz/files/Extras/2022/MAKRO/22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf'
+
+Error at date 02/07/2024 19:29:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: AttributeError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 105, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 30, in __init__
+[+]   self.new, self.bill = self.select_case(pdf).result()
+[+]	AttributeError: 'Makro' object has no attribute 'result'
+
+Error at date 02/07/2024 19:32:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: OperationalError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 106, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 61, in __init__
+[+]   self.get_id()
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 121, in get_id
+[+]   db_item = db.show_one_row(  # Por comodidad
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\simply_sqlite\__init__.py", line 71, in show_one_row
+[+]   ind = self.show_column_names(table).index(column)
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\simply_sqlite\__init__.py", line 76, in show_column_names
+[+]   point = self.cursorObj.execute('SELECT * FROM %s' % (table))
+[+]	sqlite3.OperationalError: no such table: MAKRO
+
+Error at date 02/07/2024 19:36:
+[+] While reading the file: 22-01-10 - MAKRO - 0-0(014)0010-(2022)010015.pdf
+[+] The type of the error was: OperationalError
+The text was:
+[+] File "c:\Users\Elidas\github\Zotz\main.py", line 106, in run
+[+]   Excel(excel, pdf, self)
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 61, in __init__
+[+]   self.get_id()
+[+] File "c:\Users\Elidas\github\Zotz\auxiliares\siguiente.py", line 121, in get_id
+[+]   db_item = db.show_one_row(  # Por comodidad
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\simply_sqlite\__init__.py", line 71, in show_one_row
+[+]   ind = self.show_column_names(table).index(column)
+[+] File "C:\Users\Elidas\v_env\zotz\lib\site-packages\simply_sqlite\__init__.py", line 76, in show_column_names
+[+]   point = self.cursorObj.execute('SELECT * FROM %s' % (table))
+[+]	sqlite3.OperationalError: no such table: MAKRO
+
